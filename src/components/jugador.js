@@ -1,14 +1,15 @@
 import { Laberinto } from "./laberinto.js";
 
+// =======================================================================
 export class Jugador {
 
-    static XY_INI = [128, 64];
+    static XY_INI = [9 * Laberinto.tileXY[0], 4 * Laberinto.tileXY[1]];
     static VEL = 4;
     static INFO_DIRECCION = [
-        [-1, 0, 'left', 0, 0, true],
-        [1, 0, 'right', 1, 0, false],
-        [0, -1, 'up', 0, 0],
-        [0, 1, 'down', 0, 1]
+        [-1, 0, 'left', 0, 0, 180],
+        [1, 0, 'right', 1, 0, 0],
+        [0, -1, 'up', 0, 0, 270],
+        [0, 1, 'down', 0, 1, 90]
     ];
 
     // ------------------------------------------------------------
@@ -19,29 +20,22 @@ export class Jugador {
     create() {
 
         this.jugador = this.relatedScene.physics.add.sprite(Jugador.XY_INI[0], Jugador.XY_INI[1], 'pacman');
+        this.jugador.angle = 0;
 
         this.intentoGiro = 1;
         this.direccion = this.intentoGiro;
 
-        this.jugador.setCollideWorldBounds(true);
+        // this.jugador.setCollideWorldBounds(true);
         // this.jugador.setBounce(0.2);
 
         this.relatedScene.anims.create({
-            key: 'left',
+            key: 'le-ri-up-do', 
             frames: this.relatedScene.anims.generateFrameNumbers('pacman', {start: 0, end: 6}),
             frameRate: 30,
             yoyo: true,
             repeat: -1
         });
-    
-        this.relatedScene.anims.create({
-            key: 'right',
-            frames: this.relatedScene.anims.generateFrameNumbers('pacman', {start: 0, end: 6}),
-            frameRate: 30,
-            yoyo: true,
-            repeat: -1
-        });
-    
+
         this.relatedScene.anims.create({
             key: 'turn',
             frames: [{key: 'pacman', frame: 0}],
@@ -71,7 +65,7 @@ export class Jugador {
             
             if (Laberinto.array_laberinto[y][x] !== 9) {
                 this.direccion = this.intentoGiro;
-                this.jugador.setFlipX(direcc[this.direccion][5]);
+                this.jugador.setAngle(direcc[this.direccion][5]);
             }
         }
 
@@ -88,7 +82,7 @@ export class Jugador {
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
         }
 
-        this.jugador.anims.play(direcc[this.direccion][2], true);
+        this.jugador.anims.play('le-ri-up-do', true);
 
         // console.log(this.jugador.x, this.jugador.y);
     }
