@@ -1,4 +1,8 @@
+// ========================================================================
 export class Laberinto {
+
+    static WIDTH = 800;
+    static HEIGHT = 550;
 
     static tileXY = [64, 64];
 
