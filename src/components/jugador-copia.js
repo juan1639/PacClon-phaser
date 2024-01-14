@@ -44,6 +44,8 @@ export class Jugador {
             frameRate: 20,
         });
 
+        this.jugador.anims.play('le-ri-up-do', true);
+        
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
 
         console.log(this.jugador);
@@ -80,8 +82,6 @@ export class Jugador {
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
         }
-
-        this.jugador.anims.play('le-ri-up-do', true);
 
         // console.log(this.jugador.x, this.jugador.y);
     }

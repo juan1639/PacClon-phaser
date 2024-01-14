@@ -4,12 +4,9 @@
 // -----------------------------------------------------------------------------------------
 import { loader } from './loader.js';
 import { Laberinto } from '../components/laberinto.js';
-import { Puntitos } from '../components/puntitos.js';
+import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador } from './../components/jugador-copia.js';
 import { Marcador } from './../components/marcador.js';
-
-const WIDTH = 800;
-const HEIGHT = 550;
 
 // --------------------------------------------------------------
 export class Game extends Phaser.Scene {
@@ -21,6 +18,7 @@ export class Game extends Phaser.Scene {
   init() {
     this.laberinto = new Laberinto(this);
     this.puntito = new Puntitos(this);
+    this.puntitogordo = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
     this.marcador = new Marcador(this);
   }
@@ -31,18 +29,23 @@ export class Game extends Phaser.Scene {
 
   create() {
 
-    this.add.image(WIDTH / 2, HEIGHT / 2, 'fondo');
-    this.add.image(WIDTH / 2, HEIGHT / 2 + HEIGHT, 'fondo');
-    this.add.image(WIDTH / 2 + WIDTH, HEIGHT / 2, 'fondo');
-    this.add.image(WIDTH / 2 + WIDTH, HEIGHT / 2 + HEIGHT, 'fondo');
-    // this.gameoverImage = this.add.image(400, 90, 'gameover');
-    // this.gameoverImage.visible = false;
-    
+    this.sonido_inicioNivel = this.sound.add('sonidoPacmanInicioNivel');
+    this.sonido_inicioNivel.play();
+
+    const anchoScreen = this.sys.game.config.width;
+    const altoScreen = this.sys.game.config.height;
+
+    this.add.image(anchoScreen / 2, altoScreen / 2, 'fondo');
+    this.add.image(anchoScreen / 2, altoScreen / 2 + altoScreen, 'fondo');
+    this.add.image(anchoScreen / 2 + anchoScreen, altoScreen / 2, 'fondo');
+    this.add.image(anchoScreen / 2 + anchoScreen, altoScreen / 2 + altoScreen, 'fondo');
+
     this.cameras.main.setBounds(0, 0, Math.floor(800 * 1.45), Math.floor(550 * 1.6));
     this.physics.world.setBounds(0, 0, Math.floor(800 * 1.45), Math.floor(550 * 1.6));
 
     this.laberinto.create();
     this.puntito.create();
+    this.puntitogordo.create();
     this.jugador.create();
     this.marcador.create();
 
