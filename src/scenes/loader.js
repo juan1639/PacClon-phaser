@@ -1,10 +1,15 @@
 export function loader(scene) {
 
   scene.load.image('fondo', './src/img/fondo_pacmanPh.png');
-  scene.load.image('gameover', './src/img/gameover.png');
   scene.load.image('tile', './src/img/tile_pacmanMarron.png');
   scene.load.image('puntito', './src/img/puntito.png');
+
   scene.load.spritesheet('pacman', './src/img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
+
+  scene.load.image('boton-continuar', './src/img/boton-continuar.png');
+  scene.load.image('boton-nueva-partida', './src/img/boton-start.png');
+  scene.load.image('boton-settings', './src/img/boton-config.png');
+  // scene.load.image('gameover', './src/img/gameover.png');
 
   // ---------------------------------------------------------------------------
   //  AUDIO

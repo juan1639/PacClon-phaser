@@ -1,3 +1,4 @@
+import { Settings } from "../scenes/settings.js";
 
 // =================================================================================
 function centrar_txt(texto, anchoScreen) {

@@ -17,7 +17,12 @@ export class Puntitos {
                 const valor = Laberinto.array_laberinto[i][ii];
 
                 if (valor === 1) {
-                    this.puntito.create(ii * Laberinto.tileXY[0], i * Laberinto.tileXY[1], 'puntito').setScale(0.5).refreshBody();
+                    
+                    this.puntito.create(
+                        ii * Laberinto.tileXY[0],
+                        i * Laberinto.tileXY[1],
+                        'puntito'
+                    ).setScale(0.5).setData('puntos', 10).refreshBody();
                 }
             }
         }

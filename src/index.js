@@ -1,12 +1,14 @@
 import { Game } from './scenes/game.js';
-// import { Congratulations } from './scenes/congratulations.js';
-// import { Gameover } from './scenes/gameover.js';
+import { Iniciar } from './scenes/iniciar.js';
+import { MenuPrincipal } from './scenes/menuprincipal.js';
+import { Congratulations } from './scenes/congratulations.js';
+import { GameOver } from './scenes/gameover.js';
 
 const config = {
   type: Phaser.AUTO,
   width: 800,
   height: 550,
-  scene: [Game],
+  scene: [Iniciar, MenuPrincipal, Game, Congratulations, GameOver],
   physics: {
     default: 'arcade',
     arcade: {
