@@ -1,4 +1,4 @@
-import { centrar_txt } from "../utils/functions.js";
+import { textos } from "../utils/functions.js";
 
 // =================================================================================
 export class Iniciar extends Phaser.Scene {
@@ -13,45 +13,18 @@ export class Iniciar extends Phaser.Scene {
 
     create() {
 
-        // this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
-        this.size = 50;
-        this.left = Math.floor(Iniciar.WIDTH / 6.2);
-        this.top = Math.floor(Iniciar.HEIGHT / 3);
+        this.txt1 = textos([
+            Math.floor(Iniciar.WIDTH / 6.2), Math.floor(Iniciar.HEIGHT / 3),
+            ' Toque pantalla o haga ', 50, 500, 1, 1, '#fff', 7, true, '#ffa', 'verdana, arial, sans-serif',
+            this.sys.game.config.width, 1
+        ],this);
+
+        this.txt2 = textos([
+            Math.floor(Iniciar.WIDTH / 6.2), Math.floor(Iniciar.HEIGHT / 3) + 90,
+            ' click para comenzar... ', 50, 500, 1, 1, '#fff', 7, true, '#ffa', 'verdana, arial, sans-serif',
+            this.sys.game.config.width, 1
+        ],this);
         
-        const txt1 = this.add.text(this.left, this.top, ' Toque pantalla o haga ', {
-            fontSize: this.size + 'px',
-            fontStyle: '500',
-            align: 'left',
-            shadow: {
-                offsetX: 1,
-                offsetY: 1,
-                color: '#fff',
-                blur: 7,
-                fill: true
-            },
-            fill: '#ffa',
-            fontFamily: 'verdana, arial, sans-serif'
-        });
-
-        txt1.setX(centrar_txt(txt1, this.sys.game.config.width));
-
-        const txt2 = this.add.text(this.left, this.top + 100, ' click para comenzar... ', {
-            fontSize: this.size + 'px',
-            fontStyle: '500',
-            align: 'left',
-            shadow: {
-                offsetX: 1,
-                offsetY: 1,
-                color: '#fff',
-                blur: 7,
-                fill: true
-            },
-            fill: '#ffa',
-            fontFamily: 'verdana, arial, sans-serif'
-        });
-
-        txt2.setX(centrar_txt(txt1, this.sys.game.config.width));
-
         this.input.on('pointerdown', () => this.scene.start('menuprincipal'));
 
         console.log(this);

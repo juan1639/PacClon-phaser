@@ -12,6 +12,7 @@ export class CrucetaDireccion {
     }
 
     create(x, y) {
+
         const ancho = CrucetaDireccion.WIDTH;
         const alto = CrucetaDireccion.HEIGHT;
         this.left = Math.floor(this.relatedScene.sys.game.config.width / 2);
@@ -19,7 +20,7 @@ export class CrucetaDireccion {
 
         this.boton = this.relatedScene.add.image(x - this.direccion.x, y + this.direccion.y, this.direccion.id).setInteractive();
         this.boton.setScale(this.direccion.scX, this.direccion.scY).setAngle(this.direccion.ang).setDepth(4);
-        this.boton.setX(x -this.direccion.x).setY(y + this.direccion.y);
+        this.boton.setX(x - this.direccion.x).setY(y + this.direccion.y);
 
         this.isDown = false;
     
@@ -43,13 +44,7 @@ export class CrucetaDireccion {
 
     update(x, y) {
 
-        this.boton.setX(x - this.direccion.x);
-        this.boton.setY(y + this.direccion.y);
-
-        /* if (this.boton.x < this.direccion.x -100) this.boton.setX(this.direccion.x - 100);
-        if (this.boton.x > this.direccion.x + 200) this.boton.setX(this.direccion.x + 200);
-        if (this.boton.y < this.direccion.y - 100) this.boton.setY(this.direccion.y - 100);
-        if (this.boton.y > this.direccion.y + 200) this.boton.setY(this.direccion.y + 200); */
+        if (x > 400 && x < 750) this.boton.setX(x - this.direccion.x);
+        if (y > 260 && y < 600) this.boton.setY(y + this.direccion.y);
     }
 }
-

@@ -1,5 +1,6 @@
 import { loader } from './loader.js';
 import { centrar_txt } from '../utils/functions.js';
+import { textos } from '../utils/functions.js';
 import { Settings } from './settings.js';
 import { BotonNuevaPartida, BotonSettings } from "../components/boton-nuevapartida.js";
 
@@ -40,26 +41,12 @@ export class MenuPrincipal extends Phaser.Scene {
 
         this.add.image(0, 0, 'fondo').setOrigin(0, 0);
 
-        this.size = 99;
-        this.left = Math.floor(this.sys.game.config.width / 5.2);
-        this.top = Math.floor(this.sys.game.config.height / 3);
+        this.txt1 = textos([
+            Math.floor(this.sys.game.config.width / 5.2), Math.floor(this.sys.game.config.height / 3),
+            ' Pac Clon ', 99, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+            this.sys.game.config.width, 1
+        ],this);
         
-        this.txt_titulo = this.add.text(this.left, this.top, ' Pac Clon ', {
-            fontSize: this.size + 'px',
-            fontStyle: 'bold',
-            shadow: {
-                offsetX: 1,
-                offsetY: 1,
-                color: '#fa1',
-                blur: 15,
-                fill: true
-            },
-            fill: '#ffa',
-            fontFamily: 'verdana, arial, sans-serif'
-        });
-
-        this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
-
         this.timeline = this.add.timeline([
             {
               at: aparecerBoton,
@@ -75,7 +62,7 @@ export class MenuPrincipal extends Phaser.Scene {
         this.sonido_intermision.play();
         this.sonido_intermision.volume = 0.5;
 
-        console.log(this.txt_titulo);
+        console.log(this.txt1);
     }
 
     update() {

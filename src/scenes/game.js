@@ -14,7 +14,7 @@ import { CrucetaDireccion } from '../components/crucetadireccion.js';
 
 import {
   suma_puntos,
-  centrar_txt
+  textos
 } from '../utils/functions.js';
 
 // --------------------------------------------------------------
@@ -41,7 +41,7 @@ export class Game extends Phaser.Scene {
     this.botonfullscreen = new BotonFullScreen(this);
     this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.4, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1 });
     this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 0, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1});
-    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.26, ang: 90, scX: 1.6, scY: 2.3 });
+    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.28, ang: 90, scX: 1.6, scY: 2.2 });
     this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.56, ang: 270, scX: 2.5, scY: 2.1 });
   }
 
@@ -128,33 +128,20 @@ export class Game extends Phaser.Scene {
       activa: true
     };
 
-    const left = Math.floor(this.sys.game.config.width / 2);
-    const top = Math.floor(this.sys.game.config.height / 1.7);
-    
-    this.txt_titulo = this.add.text(left, top, ' Preparado... ', {
-        fontSize: '65px',
-        fontStyle: 'bold',
-        shadow: {
-            offsetX: 1,
-            offsetY: 1,
-            color: '#fa1',
-            blur: 15,
-            fill: true
-        },
-        fill: '#ffa',
-        fontFamily: 'verdana, arial, sans-serif'
-    });
+    this.txt_preparado = textos([
+      this.sys.game.config.width / 2, this.sys.game.config.height / 1.7,
+      ' Preparado... ', 65, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+      this.sys.game.config.width, this.escalaBoundsX
+    ], this);
 
-    this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width * this.escalaBoundsX));
-    // this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
-    this.txt_titulo.setDepth(5);
+    this.txt_preparado.setDepth(5);
 
     this.timeline = this.add.timeline([
       {
         at: this.pausa_inicial.duracion,
         run: () => {
           this.pausa_inicial.activa = false,
-          this.txt_titulo.setVisible(false);
+          this.txt_preparado.setVisible(false);
         }
       }
     ]);

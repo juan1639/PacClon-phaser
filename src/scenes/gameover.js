@@ -1,6 +1,6 @@
 import { Marcador } from '../components/marcador.js';
 import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
-import { centrar_txt } from "../utils/functions.js";
+import { textos } from '../utils/functions.js';
 import { Settings } from './settings.js';
 
 // ==========================================================================
@@ -22,28 +22,16 @@ export class GameOver extends Phaser.Scene {
 
     const duracionThisScene = 7000;
 
-    this.x = Math.floor(this.sys.game.config.width / 2);
-    this.y = Math.floor(this.sys.game.config.height / 3);
+    this.txt1 = textos([
+      Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 3),
+      ' Game Over ', 90, 'bold', 1, 1, '#f91', 15, true, '#fb2', 'verdana, arial, sans-serif',
+      this.sys.game.config.width, 1
+    ],this);
 
-    this.txt_gameover = this.add.text(this.x, this.y, ' Game Over ', {
-      fontSize: '90px',
-      fontStyle: 'bold',
-      shadow: {
-          offsetX: 1,
-          offsetY: 1,
-          color: '#f91',
-          blur: 15,
-          fill: true
-      },
-      fill: '#fb2',
-      fontFamily: 'verdana, arial, sans-serif'
-    });
-
-    this.txt_gameover.setAlpha(0);
-    this.txt_gameover.setX(centrar_txt(this.txt_gameover, this.sys.game.config.width));
+    this.txt1.setAlpha(0);
 
     this.tweens.add({
-      targets: this.txt_gameover,
+      targets: this.txt1,
       alpha: 1,
       duration: Math.floor(duracionThisScene / 2),
       // repeat: 1
@@ -75,26 +63,14 @@ export class GameOver extends Phaser.Scene {
 
       Settings.setRecord(Settings.getPuntos());
 
-      const y = this.y - 150;
-
-      this.txt_newrecord = this.add.text(this.x, y, ' Enhorabuena! Nuevo Record! ', {
-        fontSize: '40px',
-        fontStyle: 'bold',
-        shadow: {
-            offsetX: 1,
-            offsetY: 1,
-            color: '#fff',
-            blur: 7,
-            fill: true
-        },
-        fill: '#ff9',
-        fontFamily: 'verdana, arial, sans-serif'
-      });
-
-      this.txt_newrecord.setX(centrar_txt(this.txt_newrecord, this.sys.game.config.width));
-
+      this.txt_newRecord = textos([
+        Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 4.5),
+        '  Enhorabuena! Nuevo Record! ', 40, 'bold', 1, 1, '#fff', 7, true, '#ff9', 'verdana, arial, sans-serif',
+        this.sys.game.config.width, 1
+      ],this);
+      
       this.tweens.add({
-        targets: this.txt_newrecord,
+        targets: this.txt_newRecord,
         scale: 2.1,
         ease: 'sine.out',
         duration: 1000,
