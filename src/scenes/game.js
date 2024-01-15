@@ -35,11 +35,14 @@ export class Game extends Phaser.Scene {
     this.jugador = new Jugador(this);
     this.marcador = new Marcador(this);
 
+    const ancho = this.sys.game.config.width;
+    const alto = this.sys.game.config.height;
+
     this.botonfullscreen = new BotonFullScreen(this);
-    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 80, y: 100, ang: 0 });
-    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 400, y: 100, ang: 0 });
-    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: 240, y: 190, ang: 90 });
-    this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: 240, y: 0, ang: 270 });
+    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.4, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1 });
+    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 0, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1});
+    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.26, ang: 90, scX: 1.6, scY: 2.3 });
+    this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.56, ang: 270, scX: 2.5, scY: 2.1 });
   }
 
   preload() {
@@ -55,6 +58,7 @@ export class Game extends Phaser.Scene {
     // -----------------------------------------------------------------------
     const anchoScreen = this.sys.game.config.width;
     const altoScreen = this.sys.game.config.height;
+    
     this.add.image(anchoScreen / 2, altoScreen / 2, 'fondo');
     this.add.image(anchoScreen / 2, altoScreen / 2 + altoScreen, 'fondo');
     this.add.image(anchoScreen / 2 + anchoScreen, altoScreen / 2, 'fondo');
@@ -72,18 +76,18 @@ export class Game extends Phaser.Scene {
     );
 
     // ----------------------------------------------------------------------
-    this.botonfullscreen.create();
-    this.crucetaleft.create();
-    this.crucetaright.create();
-    this.crucetaup.create();
-    this.crucetadown.create();
-
-    // ----------------------------------------------------------------------
     this.laberinto.create();
     this.puntito.create();
     this.puntitogordo.create();
     this.jugador.create();
     this.marcador.create();
+
+    // ----------------------------------------------------------------------
+    this.botonfullscreen.create();
+    this.crucetaleft.create(this.jugador.get().x, this.jugador.get().y);
+    this.crucetaright.create(this.jugador.get().x, this.jugador.get().y);
+    this.crucetaup.create(this.jugador.get().x, this.jugador.get().y);
+    this.crucetadown.create(this.jugador.get().x, this.jugador.get().y);
 
     // ---------------------------------------------------------------------
     this.cameras.main.startFollow(this.jugador.get());
@@ -108,7 +112,12 @@ export class Game extends Phaser.Scene {
     if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
 
     if (!this.pausa_inicial.activa) this.jugador.update();
+
     this.marcador.update(this.jugador.get().x, this.jugador.get().y);
+    this.crucetadown.update(this.jugador.get().x, this.jugador.get().y);
+    this.crucetaup.update(this.jugador.get().x, this.jugador.get().y);
+    this.crucetaleft.update(this.jugador.get().x, this.jugador.get().y);
+    this.crucetaright.update(this.jugador.get().x, this.jugador.get().y);
   }
 
   // ================================================================
