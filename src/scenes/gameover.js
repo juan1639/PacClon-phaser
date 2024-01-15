@@ -15,10 +15,9 @@ export class GameOver extends Phaser.Scene {
   
   create() {
 
-    this.sonidoGameOver = this.sound.add('sonidoGameOver');
+    this.sonidoGameOver = this.sound.add('sonidoGameOverRetro');
 
-    this.add.image(0, 0, 'fondoAzulRojizo').setOrigin(0, 0);
-    this.estrella.create();
+    this.add.image(0, 0, 'fondo').setOrigin(0, 0);
     this.marcador.create();
 
     const duracionThisScene = 7000;
@@ -32,11 +31,11 @@ export class GameOver extends Phaser.Scene {
       shadow: {
           offsetX: 1,
           offsetY: 1,
-          color: '#2ef',
+          color: '#f91',
           blur: 15,
           fill: true
       },
-      fill: '#aff',
+      fill: '#fb2',
       fontFamily: 'verdana, arial, sans-serif'
     });
 
@@ -67,7 +66,7 @@ export class GameOver extends Phaser.Scene {
   }
 
   update() {
-    this.estrella.update();
+
   }
 
   check_newRecord() {

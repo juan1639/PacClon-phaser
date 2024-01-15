@@ -11,6 +11,10 @@ export function loader(scene) {
   scene.load.image('boton-settings', './src/img/boton-config.png');
   // scene.load.image('gameover', './src/img/gameover.png');
 
+  scene.load.image('cruceta-left', './src/img/left.png');
+  scene.load.image('cruceta-right', './src/img/right.png');
+  scene.load.spritesheet('boton-fullscreen', './src/img/boton-fullscreen.png', {frameWidth: 64, frameHeight: 64});
+
   // ---------------------------------------------------------------------------
   //  AUDIO
   // ---------------------------------------------------------------------------

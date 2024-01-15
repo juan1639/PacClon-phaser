@@ -53,6 +53,8 @@ export class Marcador {
             this.marcadores.add(cadaMarcador);
         });
 
+        this.marcadores.children.iterate(marcador => marcador.setDepth(3));
+
         console.log(this.marcadores);
     }
 

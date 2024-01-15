@@ -99,9 +99,7 @@ export class BotonFullScreen {
     const sizeXY = Math.floor((64 * escala) / 2);
 
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 1.05), sizeXY, 'boton-fullscreen').setInteractive();
-    this.boton.setScale(escala);
-    this.boton.setAngle(0);
-    this.boton.setFrame(0);
+    this.boton.setScale(escala).setDepth(4).setAngle(0).setFrame(0);
 
     this.boton.on('pointerover', () => {
       // this.boton.setFrame(1);

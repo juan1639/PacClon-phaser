@@ -8,6 +8,9 @@ import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador } from './../components/jugador-copia.js';
 import { Marcador } from './../components/marcador.js';
+import { Settings } from './settings.js';
+import { BotonFullScreen } from '../components/boton-nuevapartida.js';
+import { CrucetaDireccion } from '../components/crucetadireccion.js';
 
 import {
   suma_puntos,
@@ -24,13 +27,19 @@ export class Game extends Phaser.Scene {
   init() {
     this.escalaBoundsX = 1.45;
     this.escalaBoundsY = 1.6;
-    this.set_pausaInicial(4200);
+    this.set_pausaInicial(4300);
 
     this.laberinto = new Laberinto(this);
     this.puntito = new Puntitos(this);
     this.puntitogordo = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
     this.marcador = new Marcador(this);
+
+    this.botonfullscreen = new BotonFullScreen(this);
+    this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: 80, y: 100, ang: 0 });
+    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 400, y: 100, ang: 0 });
+    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: 240, y: 190, ang: 90 });
+    this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: 240, y: 0, ang: 270 });
   }
 
   preload() {
@@ -63,6 +72,13 @@ export class Game extends Phaser.Scene {
     );
 
     // ----------------------------------------------------------------------
+    this.botonfullscreen.create();
+    this.crucetaleft.create();
+    this.crucetaright.create();
+    this.crucetaup.create();
+    this.crucetadown.create();
+
+    // ----------------------------------------------------------------------
     this.laberinto.create();
     this.puntito.create();
     this.puntitogordo.create();
@@ -74,7 +90,9 @@ export class Game extends Phaser.Scene {
     // this.cameras.main.followOffset.set(0, 0);
 
     this.physics.add.overlap(this.jugador.get(), this.puntito.get(), (jugador, puntito) => {
+
       suma_puntos(puntito);
+      this.marcador.get().getChildren()[0].setText(this.marcador.args[0][0] + Settings.getPuntos());
       puntito.disableBody(true, true);
     }, null, this);
 
@@ -87,6 +105,8 @@ export class Game extends Phaser.Scene {
   // ================================================================
   update() {
 
+    if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
+
     if (!this.pausa_inicial.activa) this.jugador.update();
     this.marcador.update(this.jugador.get().x, this.jugador.get().y);
   }
@@ -98,17 +118,6 @@ export class Game extends Phaser.Scene {
       duracion: tiempo,
       activa: true
     };
-
-    this.timeline = this.add.timeline([
-      {
-        at: this.pausa_inicial.duracion,
-        run: () => {
-          this.pausa_inicial.activa = false
-        }
-      }
-    ]);
-
-    this.timeline.play();
 
     const left = Math.floor(this.sys.game.config.width / 2);
     const top = Math.floor(this.sys.game.config.height / 1.7);
@@ -129,7 +138,19 @@ export class Game extends Phaser.Scene {
 
     this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width * this.escalaBoundsX));
     // this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
-    this.txt_titulo.setDepth(2);
+    this.txt_titulo.setDepth(5);
+
+    this.timeline = this.add.timeline([
+      {
+        at: this.pausa_inicial.duracion,
+        run: () => {
+          this.pausa_inicial.activa = false,
+          this.txt_titulo.setVisible(false);
+        }
+      }
+    ]);
+
+    this.timeline.play();
   }
 
   // ================================================================
