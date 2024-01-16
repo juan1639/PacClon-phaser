@@ -114,6 +114,8 @@ export class Game extends Phaser.Scene {
     if (!this.pausa_inicial.activa) this.jugador.update();
 
     this.marcador.update(this.jugador.get().x, this.jugador.get().y);
+
+    this.botonfullscreen.update(this.jugador.get().x, this.jugador.get().y);
     this.crucetadown.update(this.jugador.get().x, this.jugador.get().y);
     this.crucetaup.update(this.jugador.get().x, this.jugador.get().y);
     this.crucetaleft.update(this.jugador.get().x, this.jugador.get().y);

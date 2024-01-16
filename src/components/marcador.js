@@ -12,16 +12,7 @@ export class Marcador {
     }
 
     create() {
-
-        /* this.size = 24;
-
-        this.left = Math.floor(this.relatedScene.sys.game.config.width / 2);
-        this.top = Math.floor(this.relatedScene.sys.game.config.height / 2);
         
-        this.marcador = this.relatedScene.add.text(0, 0, ' Puntos: 0', {
-            fontSize: this.size + 'px', fill: '#fff', fontFamily: 'verdana, arial, sans-serif'
-        }); */
-
         this.marcadores = this.relatedScene.add.group();
 
         this.left = Math.floor(this.relatedScene.sys.game.config.width / 2);

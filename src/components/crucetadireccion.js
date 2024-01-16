@@ -15,6 +15,7 @@ export class CrucetaDireccion {
 
         const ancho = CrucetaDireccion.WIDTH;
         const alto = CrucetaDireccion.HEIGHT;
+        
         this.left = Math.floor(this.relatedScene.sys.game.config.width / 2);
         this.top = Math.floor(this.relatedScene.sys.game.config.height / 2);
 
@@ -44,7 +45,12 @@ export class CrucetaDireccion {
 
     update(x, y) {
 
-        if (x > 400 && x < 750) this.boton.setX(x - this.direccion.x);
-        if (y > 260 && y < 600) this.boton.setY(y + this.direccion.y);
+        const limit_le = Math.floor(this.relatedScene.sys.game.config.width / 2);// 400
+        const limit_ri = Math.floor(this.relatedScene.sys.game.config.width / 1.065);// 750
+        const limit_up = Math.floor(this.relatedScene.sys.game.config.height / 2.11);// 260
+        const limit_do = Math.floor(this.relatedScene.sys.game.config.height / 0.915);// 600
+
+        if (x > limit_le && x < limit_ri) this.boton.setX(x - this.direccion.x);
+        if (y > limit_up && y < limit_do) this.boton.setY(y + this.direccion.y);
     }
 }

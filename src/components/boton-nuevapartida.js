@@ -98,6 +98,9 @@ export class BotonFullScreen {
     const escala = 0.5;
     const sizeXY = Math.floor((64 * escala) / 2);
 
+    this.offsetX = Math.floor(ancho / 2.1);
+    this.offsetY = Math.floor(alto / 2.1);
+
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 1.05), sizeXY, 'boton-fullscreen').setInteractive();
     this.boton.setScale(escala).setDepth(4).setAngle(0).setFrame(0);
 
@@ -117,5 +120,16 @@ export class BotonFullScreen {
         this.relatedScene.scale.stopFullscreen();
       }
     });
+  }
+
+  update(x, y) {
+
+    const limit_le = Math.floor(this.relatedScene.sys.game.config.width / 2);// 400
+    const limit_ri = Math.floor(this.relatedScene.sys.game.config.width / 1.045);// 750
+    const limit_up = Math.floor(this.relatedScene.sys.game.config.height / 2.02);// 260
+    const limit_do = Math.floor(this.relatedScene.sys.game.config.height / 0.905);// 600
+
+    if (x > limit_le && x < limit_ri) this.boton.setX(x + this.offsetX);
+    if (y > limit_up && y < limit_do) this.boton.setY(y - this.offsetY);
   }
 }
