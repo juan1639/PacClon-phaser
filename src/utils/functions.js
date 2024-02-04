@@ -48,9 +48,18 @@ function textos(args, relatedScene) {
     return txt;
 }
 
+// =================================================================================
+function play_sonidos(id, boolLoop, volumen) {
+    
+    id.play();
+    id.loop = boolLoop;
+    id.volume = volumen;
+}
+
 export {
     centrar_txt,
     suma_puntos,
     restar_vida,
-    textos
+    textos,
+    play_sonidos
 };
