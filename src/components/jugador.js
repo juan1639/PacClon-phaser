@@ -5,12 +5,14 @@ export class Jugador {
 
     static XY_INI = [9 * Laberinto.tileXY[0], 4 * Laberinto.tileXY[1]];
     static VEL = 4;
-    static INFO_DIRECCION = [
-        [-1, 0, 'left', 0, 0, 180],
-        [1, 0, 'right', 1, 0, 0],
-        [0, -1, 'up', 0, 0, 270],
-        [0, 1, 'down', 0, 1, 90]
-    ];
+
+    // [velX, velY, addWidth, addHeight, angle]
+    static INFO_DIRECCION = {
+        left: [-1, 0, 0, 0, 180],
+        right: [1, 0, 1, 0, 0],
+        up: [0, -1, 0, 0, 270],
+        down: [0, 1, 0, 1, 90]
+    };
 
     // ------------------------------------------------------------
     constructor(scene) {
@@ -22,7 +24,7 @@ export class Jugador {
         this.jugador = this.relatedScene.physics.add.sprite(Jugador.XY_INI[0], Jugador.XY_INI[1], 'pacman');
         this.jugador.angle = 0;
 
-        this.intentoGiro = 1;
+        this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
 
         // this.jugador.setCollideWorldBounds(true);
@@ -42,6 +44,8 @@ export class Jugador {
             frameRate: 20,
         });
 
+        this.jugador.anims.play('le-ri-up-do', true);
+        
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
 
         console.log(this.jugador);
@@ -49,13 +53,10 @@ export class Jugador {
 
     update() {
 
-        // this.direccion, this.intentoGiro = 0,1,2,3
-        // 0 left, 1 right, 2 up, 3 down
-
         const direcc = Jugador.INFO_DIRECCION;
 
-        direcc.forEach((tecla, index) => {
-            if (this.controles[tecla[2]].isDown) this.intentoGiro = index;
+        Object.keys(Jugador.INFO_DIRECCION).forEach(tecla => {
+            if (this.controles[tecla].isDown) this.intentoGiro = tecla;
         });
 
         if (this.jugador.x % Laberinto.tileXY[0] === 0 && this.jugador.y % Laberinto.tileXY[1] === 0) {
@@ -65,12 +66,12 @@ export class Jugador {
             
             if (Laberinto.array_laberinto[y][x] !== 9) {
                 this.direccion = this.intentoGiro;
-                this.jugador.setAngle(direcc[this.direccion][5]);
+                this.jugador.setAngle(direcc[this.direccion][4]);
             }
         }
 
-        const ancho = direcc[this.direccion][3] * (Laberinto.tileXY[0] - Jugador.VEL);
-        const alto = direcc[this.direccion][4] * (Laberinto.tileXY[1] - Jugador.VEL);
+        const ancho = direcc[this.direccion][2] * (Laberinto.tileXY[0] - Jugador.VEL);
+        const alto = direcc[this.direccion][3] * (Laberinto.tileXY[1] - Jugador.VEL);
         const offsetX = direcc[this.direccion][0] * Jugador.VEL;
         const offsetY = direcc[this.direccion][1] * Jugador.VEL;
         
@@ -81,8 +82,6 @@ export class Jugador {
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
         }
-
-        this.jugador.anims.play('le-ri-up-do', true);
 
         // console.log(this.jugador.x, this.jugador.y);
     }

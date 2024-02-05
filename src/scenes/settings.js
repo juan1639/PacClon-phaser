@@ -1,16 +1,44 @@
+
 // ====================================================================================
 export class Settings {
+
+    static screen = {
+        width: 800,
+        height: 550,
+        escBoundsX: 1.45,
+        escBoundsY: 1.6
+    };
 
     static puntos = 0;
     static nivel = 1;
     static hi = 12000;
     static vidas = 3;
 
-    static screen = {
-        width: 800,
-        height: 600,
-        escBoundsX: 1.45,
-        escBoundsY: 1.6
+    static botonesYcruceta = true;
+
+    static coorCruceta = {
+        xx: 60,
+        yy: 1400,
+        sizeX: 2.5,
+        sizeY: 2.1
+    };
+
+    static cameraControles = {
+        x: 0,
+        y: 370,
+        ancho: 800,
+        alto: 280,
+        scrollX: 0,
+        scrollY: 1265
+    };
+
+    static cameraScores = {
+        x: 0,
+        y: 0,
+        ancho: 800,
+        alto: 30,
+        scrollX: 0,
+        scrollY: -99
     };
 
     static depth = {
@@ -40,12 +68,28 @@ export class Settings {
         return Settings.vidas;
     }
 
+    static isBotonesYcruceta() {
+        return Settings.botonesYcruceta;
+    }
+
+    static getCoorCruceta() {
+        return Settings.coorCruceta;
+    }
+
     static getScreen() {
         return Settings.screen;
     }
 
     static getDepth() {
         return Settings.depth;
+    }
+
+    static getCameraControles() {
+        return Settings.cameraControles;
+    }
+
+    static getCameraScores() {
+        return Settings.cameraScores;
     }
 
     // ------------------------------------------------------
@@ -63,6 +107,10 @@ export class Settings {
 
     static setVidas(lifes) {
         Settings.vidas = lifes;
+    }
+
+    static setBotonesYcruceta(bool) {
+        Settings.botonesYcruceta = bool;
     }
 
     static setScreen(w, h, bx, by) {
