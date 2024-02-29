@@ -1,5 +1,6 @@
 import { Settings } from "../scenes/settings.js";
 import { Laberinto } from "./laberinto.js";
+import { particulas } from "../utils/functions.js";
 
 export class Puntitos {
 
@@ -63,6 +64,19 @@ export class PuntitosGordos {
             yoyo: true,
             duration: 900,
             repeat: -1
+        });
+
+        this.puntitosgordos.children.iterate(gordo => {
+
+            particulas(
+                gordo.x, gordo.y,
+                'sparkle',
+                100,
+                500,
+                {start: 0.17, end: 0},
+                0xffff55,
+                null, false, this.relatedScene
+            );
         });
 
         console.log(this.puntitosgordos);
