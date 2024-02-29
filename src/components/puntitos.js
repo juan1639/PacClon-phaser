@@ -21,7 +21,7 @@ export class Puntitos {
                     
                     this.puntito.create(
                         ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito'
-                    ).setScale(0.5).setData('puntos', 10).refreshBody();
+                    ).setScale(0.35).setData('puntos', 10).refreshBody();
                 }
             }
         }
