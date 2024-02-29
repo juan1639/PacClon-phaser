@@ -9,7 +9,7 @@ export class GameOver extends Phaser.Scene {
   constructor() {
 
     super({ key: 'gameover' });
-    this.marcador = new Marcador(this);
+    // this.marcador = new Marcador(this);
     this.botonrejugar = new BotonNuevaPartida(this);
   }
   
@@ -18,7 +18,7 @@ export class GameOver extends Phaser.Scene {
     this.sonidoGameOver = this.sound.add('sonidoGameOverRetro');
 
     this.add.image(0, 0, 'fondo').setOrigin(0, 0);
-    this.marcador.create();
+    // this.marcador.create();
 
     const duracionThisScene = 7000;
 
@@ -53,9 +53,7 @@ export class GameOver extends Phaser.Scene {
     this.check_newRecord();
   }
 
-  update() {
-
-  }
+  update() {}
 
   check_newRecord() {
 

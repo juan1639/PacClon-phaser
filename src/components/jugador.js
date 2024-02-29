@@ -20,7 +20,9 @@ export class Jugador {
     create() {
 
         this.jugador = this.relatedScene.physics.add.sprite(
-            Settings.pacman.iniX, Settings.pacman.iniY, 'pacman'
+            Settings.pacman.iniX * Settings.tileXY.x,
+            Settings.pacman.iniY * Settings.tileXY.y,
+            'pacman'
         );
 
         this.jugador.setAngle(0);

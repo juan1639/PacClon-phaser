@@ -5,6 +5,7 @@
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador } from '../components/jugador.js';
+import { Fantasma } from '../components/fantasma.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { elastic } from '../utils/functions.js';
@@ -31,6 +32,7 @@ export class Game extends Phaser.Scene {
     this.puntito = new Puntitos(this);
     this.puntitogordo = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
+    this.fantasmas = new Fantasma(this);
 
     const ancho = this.sys.game.config.width;
     const alto = this.sys.game.config.height;
@@ -102,6 +104,7 @@ export class Game extends Phaser.Scene {
     this.puntito.create();
     this.puntitogordo.create();
     this.jugador.create();
+    this.fantasmas.create();
     
     this.marcadorPtos.create();
     this.marcadorNivel.create();

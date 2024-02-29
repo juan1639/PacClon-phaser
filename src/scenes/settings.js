@@ -19,9 +19,16 @@ export class Settings {
     static vidas = 3;
 
     static pacman = {
-        iniX: 9 * Settings.tileXY.x,
-        iniY: 4 * Settings.tileXY.y,
+        iniX: 9,
+        iniY: 4,
         vel: 4
+    };
+
+    static fantasmasIniXY = {
+        azul: [4, 8],
+        rojo: [8, 8],
+        verde: [12, 8],
+        pink: [16, 8],
     };
 
     static botonesYcruceta = true;
