@@ -1,10 +1,35 @@
 import { Settings } from "../scenes/settings.js";
 
-// =================================================================================
 function centrar_txt(texto, anchoScreen) {
   
     console.log(texto.width);
     return Math.floor(anchoScreen / 2 - texto.width / 2);
+}
+
+// =================================================================================
+function elastic(texto, down, dura, scene) {
+
+    scene.tweens.add({
+        targets: texto,
+        y: down,
+        ease: 'Elastic',
+        duration: dura
+    });
+}
+
+// =================================================================================
+function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene) {
+
+    const partis = scene.add.particles(x, y, particula, {
+        speed: vel,
+        lifespan: span,
+        scale: size,
+        tint: color,
+        // gravityY: 200
+        blendMode: 'ADD'
+    });
+
+    if (bool) partis.startFollow(sprite);
 }
 
 // =================================================================================
@@ -39,7 +64,7 @@ function textos(args, relatedScene) {
             fill: args[9]
         },
         fill: args[10],
-        fontFamily: args[11]
+        fontFamily: args[11],
     });
 
     txt.setX(centrar_txt(txt, args[12] * args[13]));
@@ -58,6 +83,8 @@ function play_sonidos(id, boolLoop, volumen) {
 
 export {
     centrar_txt,
+    elastic,
+    particulas,
     suma_puntos,
     restar_vida,
     textos,

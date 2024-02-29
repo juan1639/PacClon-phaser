@@ -1,6 +1,5 @@
-
 // =========================================================================================
-//  P a c  C l o n
+//  P a c  C l o n  -  Phaser
 // 
 // -----------------------------------------------------------------------------------------
 import { Laberinto } from '../components/laberinto.js';
@@ -8,6 +7,7 @@ import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador } from '../components/jugador.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
+import { elastic } from '../utils/functions.js';
 import { BotonFullScreen } from '../components/boton-nuevapartida.js';
 import { CrucetaDireccion } from '../components/botonycruceta.js';
 
@@ -17,7 +17,6 @@ import {
   textos
 } from '../utils/functions.js';
 
-// --------------------------------------------------------------
 export class Game extends Phaser.Scene {
 
   constructor() {
@@ -88,9 +87,7 @@ export class Game extends Phaser.Scene {
     this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.56, ang: 270, scX: 2.5, scY: 2.1 }); */
   }
 
-  preload() {
-    // loader(this);
-  }
+  preload() {}
 
   create() {
 
@@ -122,14 +119,12 @@ export class Game extends Phaser.Scene {
     this.crear_colliders();
   }
 
-  // ================================================================
   update() {
 
     if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
     if (!this.pausa_inicial.activa) this.jugador.update();
   }
 
-  // ================================================================
   set_pausaInicial(tiempo) {
 
     this.pausa_inicial = {
@@ -138,12 +133,14 @@ export class Game extends Phaser.Scene {
     };
 
     this.txt_preparado = textos([
-      this.sys.game.config.width / 2, this.sys.game.config.height / 1.7,
+      this.sys.game.config.width / 2, this.sys.game.config.height / 10,
       ' Preparado... ', 65, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
       this.sys.game.config.width, Settings.getScreen().escBoundsX
     ], this);
 
     this.txt_preparado.setDepth(Settings.getDepth().textos);
+
+    elastic(this.txt_preparado, this.sys.game.config.height / 1.7, 3000, this);
 
     this.timeline = this.add.timeline([
       {
@@ -158,7 +155,6 @@ export class Game extends Phaser.Scene {
     this.timeline.play();
   }
 
-  // ================================================================
   crear_colliders() {
 
     this.physics.add.overlap(this.jugador.get(), this.puntito.get(), (jugador, puntito) => {
@@ -167,7 +163,7 @@ export class Game extends Phaser.Scene {
       this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
       puntito.disableBody(true, true);
     
-    }, null, this);
+    });
 
     // this.physics.add.collider(this.jugador.get(), this.laberinto.get(), (jug, plat) => {console.log(jug.body.touching.right);});
     /* this.physics.add.collider(this.jugador.get(), this.laberinto.get(), (jugador, laberinto) => {
@@ -175,7 +171,6 @@ export class Game extends Phaser.Scene {
     }); */
   }
 
-  // ================================================================
   set_cameras() {
 
     this.cameras.main.setBounds(
@@ -189,7 +184,6 @@ export class Game extends Phaser.Scene {
     );
   }
 
-  // ================================================================
   set_cameras_controles() {
     
     var { x, y, ancho, alto, scrollX, scrollY } = Settings.getCameraControles();
@@ -200,7 +194,6 @@ export class Game extends Phaser.Scene {
     // console.log(this.mapa_controles);
   }
   
-  // ================================================================
   set_cameras_marcadores() {
 
     var { x, y, ancho, alto, scrollX, scrollY } = Settings.getCameraScores();
@@ -211,7 +204,6 @@ export class Game extends Phaser.Scene {
     // console.log(this.mapa_scores);
   }
 
-  // ================================================================
   set_sonidos() {
 
     this.sonido_preparado = this.sound.add('sonidoPacmanInicioNivel');

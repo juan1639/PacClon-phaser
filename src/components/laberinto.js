@@ -1,8 +1,6 @@
+import { Settings } from "../scenes/settings.js";
 
-// ========================================================================
 export class Laberinto {
-    
-    static tileXY = [64, 64];
 
     static array_laberinto = [
         [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
@@ -26,7 +24,6 @@ export class Laberinto {
         [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
     ];
 
-    // ------------------------------------------------------------
     constructor(scene) {
         this.relatedScene = scene;
     }
@@ -41,7 +38,7 @@ export class Laberinto {
                 const valor = Laberinto.array_laberinto[i][ii];
 
                 if (valor === 9) {
-                    this.tile.create(ii * Laberinto.tileXY[0], i * Laberinto.tileXY[1], 'tile').refreshBody();
+                    this.tile.create(ii * Settings.tileXY.x, i * Settings.tileXY.y, 'tile').refreshBody();
                 }
             }
         }

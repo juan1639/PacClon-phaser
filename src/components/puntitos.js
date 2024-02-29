@@ -1,6 +1,6 @@
+import { Settings } from "../scenes/settings.js";
 import { Laberinto } from "./laberinto.js";
 
-// ===========================================================================
 export class Puntitos {
 
     constructor(scene) {
@@ -19,9 +19,7 @@ export class Puntitos {
                 if (valor === 1) {
                     
                     this.puntito.create(
-                        ii * Laberinto.tileXY[0],
-                        i * Laberinto.tileXY[1],
-                        'puntito'
+                        ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito'
                     ).setScale(0.5).setData('puntos', 10).refreshBody();
                 }
             }
@@ -52,7 +50,8 @@ export class PuntitosGordos {
                 const valor = Laberinto.array_laberinto[i][ii];
 
                 if (valor === 5) {
-                    this.puntitosgordos.create(ii * Laberinto.tileXY[0], i * Laberinto.tileXY[1], 'puntito').setScale(1.6).refreshBody();
+                    this.puntitosgordos.create(ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito')
+                        .setScale(1.6).refreshBody();
                 }
             }
         }

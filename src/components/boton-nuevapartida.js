@@ -1,9 +1,7 @@
 import { Settings } from "../scenes/settings.js";
 
-// ==================================================================================
 export class BotonNuevaPartida {
 
-  // --------------------------------------------------------
   constructor(scene) {
     this.relatedScene = scene;
   }
@@ -17,7 +15,7 @@ export class BotonNuevaPartida {
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 2), Math.floor(alto / 1.5), botonCondicional).setInteractive();
     this.boton.setScale(0.6);
     this.boton.setAngle(1);
-    this.boton.setTint(new Phaser.Display.Color(255, 155, 115).color);
+    this.boton.setTint(new Phaser.Display.Color(255, 255, 105).color);
 
     this.boton.on('pointerover', () => {
       // this.boton.setFrame(1);
@@ -46,7 +44,6 @@ export class BotonNuevaPartida {
 // ==================================================================================
 export class BotonSettings {
 
-  // --------------------------------------------------------
   constructor(scene) {
     this.relatedScene = scene;
   }
@@ -58,7 +55,7 @@ export class BotonSettings {
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 2), Math.floor(alto / 1.1), 'boton-settings').setInteractive();
     this.boton.setScale(0.5);
     this.boton.setAngle(0);
-    this.boton.setTint(new Phaser.Display.Color(255, 155, 115).color);
+    this.boton.setTint(new Phaser.Display.Color(255, 255, 115).color);
 
     this.boton.on('pointerover', () => {
       // this.boton.setFrame(1);
@@ -85,8 +82,7 @@ export class BotonSettings {
 
 // ==================================================================================
 export class BotonFullScreen {
-
-  // --------------------------------------------------------
+  
   constructor(scene, args) {
     this.relatedScene = scene;
     this.args = args;

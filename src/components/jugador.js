@@ -1,9 +1,8 @@
+import { Settings } from '../scenes/settings.js';
 import { Laberinto } from "./laberinto.js";
 
-// =======================================================================
 export class Jugador {
 
-    static XY_INI = [9 * Laberinto.tileXY[0], 4 * Laberinto.tileXY[1]];
     static VEL = 4;
 
     // [velX, velY, addWidth, addHeight, angle]
@@ -14,21 +13,19 @@ export class Jugador {
         down: [0, 1, 0, 1, 90]
     };
 
-    // ------------------------------------------------------------
     constructor(scene) {
         this.relatedScene = scene;
     }
 
     create() {
 
-        this.jugador = this.relatedScene.physics.add.sprite(Jugador.XY_INI[0], Jugador.XY_INI[1], 'pacman');
-        this.jugador.angle = 0;
+        this.jugador = this.relatedScene.physics.add.sprite(
+            Settings.pacman.iniX, Settings.pacman.iniY, 'pacman'
+        );
 
+        this.jugador.setAngle(0);
         this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
-
-        // this.jugador.setCollideWorldBounds(true);
-        // this.jugador.setBounce(0.2);
 
         this.relatedScene.anims.create({
             key: 'le-ri-up-do', 
@@ -45,7 +42,7 @@ export class Jugador {
         });
 
         this.jugador.anims.play('le-ri-up-do', true);
-        
+
         this.controles = this.relatedScene.input.keyboard.createCursorKeys();
 
         console.log(this.jugador);
@@ -59,10 +56,10 @@ export class Jugador {
             if (this.controles[tecla].isDown) this.intentoGiro = tecla;
         });
 
-        if (this.jugador.x % Laberinto.tileXY[0] === 0 && this.jugador.y % Laberinto.tileXY[1] === 0) {
+        if (this.jugador.x % Settings.tileXY.y === 0 && this.jugador.y % Settings.tileXY.y === 0) {
             
-            const x = Math.floor(this.jugador.x / Laberinto.tileXY[0]) + direcc[this.intentoGiro][0];
-            const y = Math.floor(this.jugador.y / Laberinto.tileXY[1]) + direcc[this.intentoGiro][1];
+            const x = Math.floor(this.jugador.x / Settings.tileXY.y) + direcc[this.intentoGiro][0];
+            const y = Math.floor(this.jugador.y / Settings.tileXY.y) + direcc[this.intentoGiro][1];
             
             if (Laberinto.array_laberinto[y][x] !== 9) {
                 this.direccion = this.intentoGiro;
@@ -70,13 +67,13 @@ export class Jugador {
             }
         }
 
-        const ancho = direcc[this.direccion][2] * (Laberinto.tileXY[0] - Jugador.VEL);
-        const alto = direcc[this.direccion][3] * (Laberinto.tileXY[1] - Jugador.VEL);
+        const ancho = direcc[this.direccion][2] * (Settings.tileXY.y - Jugador.VEL);
+        const alto = direcc[this.direccion][3] * (Settings.tileXY.y - Jugador.VEL);
         const offsetX = direcc[this.direccion][0] * Jugador.VEL;
         const offsetY = direcc[this.direccion][1] * Jugador.VEL;
         
-        const x = Math.floor((this.jugador.x + offsetX + ancho) / Laberinto.tileXY[0]);
-        const y = Math.floor((this.jugador.y + offsetY + alto) / Laberinto.tileXY[1]);
+        const x = Math.floor((this.jugador.x + offsetX + ancho) / Settings.tileXY.y);
+        const y = Math.floor((this.jugador.y + offsetY + alto) / Settings.tileXY.y);
 
         if (Laberinto.array_laberinto[y][x] !== 9) {
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
