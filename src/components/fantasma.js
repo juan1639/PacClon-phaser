@@ -7,10 +7,17 @@ export class Fantasma {
 
     // [velX, velY, addWidth, addHeight, angle]
     static INFO_DIRECCION = {
-        left: [-1, 0, 0, 0, 180],
-        right: [1, 0, 1, 0, 0],
-        up: [0, -1, 0, 0, 270],
-        down: [0, 1, 0, 1, 90]
+        left: [-1, 0, 0, 0, 180, 'left'],
+        right: [1, 0, 1, 0, 0, 'right'],
+        up: [0, -1, 0, 0, 270, 'up'],
+        down: [0, 1, 0, 1, 90, 'down']
+    };
+
+    static OTRA_DIRECCION_RND = {
+        left: ['right', 'up', 'down'],
+        right: ['left', 'up', 'down'],
+        up: ['right', 'left', 'down'],
+        down: ['right', 'left', 'up']
     };
 
     // Algunos ptos del Laberinto donde los fantasmas pueden cambiar de direccion
@@ -44,9 +51,6 @@ export class Fantasma {
             fant.setData('direccion', 'right');
             fant.setAngle(0).setScale(0.1, 0.1).setFrame(0);
         }));
-        
-        // this.intentoGiro = 'right';
-        // this.direccion = this.intentoGiro;
 
         this.fantasmas.children.iterate((fant, index) => {
 
@@ -68,65 +72,85 @@ export class Fantasma {
 
         const direcc = Fantasma.INFO_DIRECCION;
 
-        this.fantasmas.children.iterate((fant, index) => {});
+        this.fantasmas.children.iterate((fant, index) => {
 
-        let x = 0;
-        let y = 0;
-        let perseguir;
+            let x = 0;
+            let y = 0;
+            let perseguir;
 
-        for (let i = 0; i < Fantasma.ptosClave.length; i ++) {
+            for (let i = 0; i < Fantasma.ptosClave.length; i ++) {
 
-            let pClaveX = Fantasma.ptosClave[i][0] * Settings.tileXY.x;
-            let pClaveY = Fantasma.ptosClave[i][1] * Settings.tileXY.y;
+                let pClaveX = Fantasma.ptosClave[i][0] * Settings.tileXY.x;
+                let pClaveY = Fantasma.ptosClave[i][1] * Settings.tileXY.y;
 
-            if (fant.x == pClaveX && fant.y == pClaveY) {
+                if (fant.x == pClaveX && fant.y == pClaveY) {
+
+                    perseguir = Phaser.Math.Between(0, 10);
+
+                    if (perseguir < 7 + Settings.getNivel()) {
+                        this.fantasma_persigue(fant);
+                    }
+                }
+            }
+
+            x = Math.floor(
+                (fant.x + direcc[fant.getData('direccion')][0] +
+                    Settings.tileXY.x * direcc[fant.getData('direccion')][2]) / Settings.tileXY.x);
+            
+            y = Math.floor(
+                (fant.y + direcc[fant.getData('direccion')][1] +
+                    Settings.tileXY.y * direcc[fant.getData('direccion')][3]) / Settings.tileXY.y);
+            
+            if (!(Laberinto.check_colision(x, y))) {
+
+                fant.x += direcc[fant.getData('direccion')][0] * Fantasma.VEL;
+                fant.y += direcc[fant.getData('direccion')][1] * Fantasma.VEL;
+
+                // if (this.x > settings.constante.nro_columnas * settings.constante.bsx && this.velX > 0) this.x = -settings.constante.bsx;
+                // if (this.x < -settings.constante.bsx && this.velX < 0) this.x = settings.constante.nro_columnas * settings.constante.bsx;
+
+            } else {
 
                 perseguir = Phaser.Math.Between(0, 10);
 
-                if (perseguir < 7 + Settings.getNivel()) {
-                    this.fantasma_persigue();
-                    this.nuevos_valores();
+                if (perseguir < 5 + Settings.getNivel()) {
+                    this.fantasma_persigue(fant);
+                    
+                } else {
+                    fant.setData('direccion', this.elegir_otra_direccion(direcc, fant));
                 }
             }
-        }
+        });
+    }
 
-        x = parseInt(
-            (fant.x + direcc.fant.getData('direccion')[0] +
-                Settings.tileXY.x * fant.getData('direccion')[2]) / Settings.tileXY.x);
-        
-        y = parseInt(
-            (fant.y + direcc.fant.getData('direccion')[1] +
-                Settings.tileXY.y * fant.getData('direccion')[3]) / Settings.tileXY.y);
+    elegir_otra_direccion(direcc, fant) {
 
-        if (!(Laberinto.check_colision(x, y))) {
+        let actualDirecc = direcc[fant.getData('direccion')][5];
+        return Fantasma.OTRA_DIRECCION_RND[actualDirecc][Math.floor(Math.random()* 3)];
+    }
 
-            fant.x += direcc.fant.getData('direccion')[0] * Fantasma.VEL;
-            fant.y += direcc.fant.getData('direccion')[1] * Fantasma.VEL;
+    fantasma_persigue(fant) {
 
-            // if (this.x > settings.constante.nro_columnas * settings.constante.bsx && this.velX > 0) this.x = -settings.constante.bsx;
-            // if (this.x < -settings.constante.bsx && this.velX < 0) this.x = settings.constante.nro_columnas * settings.constante.bsx;
+        const hor_ver = Phaser.Math.Between(0, 10);
+
+        if (hor_ver < 5) {
+
+            if (fant.y < this.relatedScene.jugador.get().y) {
+                fant.setData('direccion', 'down');
+
+            } else {
+                fant.setData('direccion', 'up');
+            }
 
         } else {
 
-            perseguir = Phaser.Math.Between(0, 10);
+            if (fant.x < this.relatedScene.jugador.get().x) {
+                fant.setData('direccion', 'right');
 
-            if (perseguir < 5 + Settings.getNivel()) {
-                this.fantasma_persigue();
-                
             } else {
-                this.elegir_otra_direccion();
+                fant.setData('direccion', 'left');
             }
-
-            this.nuevos_valores();
         }
-    }
-
-    fantasma_persigue() {
-
-    }
-
-    nuevos_valores() {
-
     }
 
     get() {

@@ -126,6 +126,7 @@ export class Game extends Phaser.Scene {
 
     if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
     if (!this.pausa_inicial.activa) this.jugador.update();
+    if (!this.pausa_inicial.activa) this.fantasmas.update();
   }
 
   set_pausaInicial(tiempo) {
