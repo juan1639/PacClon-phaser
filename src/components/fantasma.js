@@ -13,6 +13,15 @@ export class Fantasma {
         down: [0, 1, 0, 1, 90]
     };
 
+    // Algunos ptos del Laberinto donde los fantasmas pueden cambiar de direccion
+    static ptosClave = [
+        [4, 1], [14, 1],
+        [4, 4], [6, 4], [12, 4], [14, 4],
+        [4, 8], [6, 8], [12, 8], [14, 8],
+        [1, 11], [4, 11], [6, 11], [12, 11], [14, 11], [17, 11],
+        [4, 13], [6, 13], [12, 13], [14, 13]
+    ];
+
     constructor(scene) {
         this.relatedScene = scene;
     }
@@ -31,11 +40,13 @@ export class Fantasma {
 
         this.fantasmas.children.iterate((fant => {
 
+            fant.setData('intentoGiro', 'right');
+            fant.setData('direccion', 'right');
             fant.setAngle(0).setScale(0.1, 0.1).setFrame(0);
         }));
         
-        this.intentoGiro = 'right';
-        this.direccion = this.intentoGiro;
+        // this.intentoGiro = 'right';
+        // this.direccion = this.intentoGiro;
 
         this.fantasmas.children.iterate((fant, index) => {
 
@@ -55,35 +66,67 @@ export class Fantasma {
 
     update() {
 
-        /* const direcc = Jugador.INFO_DIRECCION;
+        const direcc = Fantasma.INFO_DIRECCION;
 
-        Object.keys(Jugador.INFO_DIRECCION).forEach(tecla => {
-            if (this.controles[tecla].isDown) this.intentoGiro = tecla;
-        });
+        this.fantasmas.children.iterate((fant, index) => {});
 
-        if (this.fantasmas.x % Settings.tileXY.y === 0 && this.fantasmas.y % Settings.tileXY.y === 0) {
-            
-            const x = Math.floor(this.fantasmas.x / Settings.tileXY.y) + direcc[this.intentoGiro][0];
-            const y = Math.floor(this.fantasmas.y / Settings.tileXY.y) + direcc[this.intentoGiro][1];
-            
-            if (Laberinto.array_laberinto[y][x] !== 9) {
-                this.direccion = this.intentoGiro;
-                this.fantasmas.setAngle(direcc[this.direccion][4]);
+        let x = 0;
+        let y = 0;
+        let perseguir;
+
+        for (let i = 0; i < Fantasma.ptosClave.length; i ++) {
+
+            let pClaveX = Fantasma.ptosClave[i][0] * Settings.tileXY.x;
+            let pClaveY = Fantasma.ptosClave[i][1] * Settings.tileXY.y;
+
+            if (fant.x == pClaveX && fant.y == pClaveY) {
+
+                perseguir = Phaser.Math.Between(0, 10);
+
+                if (perseguir < 7 + Settings.getNivel()) {
+                    this.fantasma_persigue();
+                    this.nuevos_valores();
+                }
             }
         }
 
-        const ancho = direcc[this.direccion][2] * (Settings.tileXY.y - Jugador.VEL);
-        const alto = direcc[this.direccion][3] * (Settings.tileXY.y - Jugador.VEL);
-        const offsetX = direcc[this.direccion][0] * Jugador.VEL;
-        const offsetY = direcc[this.direccion][1] * Jugador.VEL;
+        x = parseInt(
+            (fant.x + direcc.fant.getData('direccion')[0] +
+                Settings.tileXY.x * fant.getData('direccion')[2]) / Settings.tileXY.x);
         
-        const x = Math.floor((this.fantasmas.x + offsetX + ancho) / Settings.tileXY.y);
-        const y = Math.floor((this.fantasmas.y + offsetY + alto) / Settings.tileXY.y);
+        y = parseInt(
+            (fant.y + direcc.fant.getData('direccion')[1] +
+                Settings.tileXY.y * fant.getData('direccion')[3]) / Settings.tileXY.y);
 
-        if (Laberinto.array_laberinto[y][x] !== 9) {
-            this.fantasmas.x += direcc[this.direccion][0] * Jugador.VEL;
-            this.fantasmas.y += direcc[this.direccion][1] * Jugador.VEL;
-        } */
+        if (!(Laberinto.check_colision(x, y))) {
+
+            fant.x += direcc.fant.getData('direccion')[0] * Fantasma.VEL;
+            fant.y += direcc.fant.getData('direccion')[1] * Fantasma.VEL;
+
+            // if (this.x > settings.constante.nro_columnas * settings.constante.bsx && this.velX > 0) this.x = -settings.constante.bsx;
+            // if (this.x < -settings.constante.bsx && this.velX < 0) this.x = settings.constante.nro_columnas * settings.constante.bsx;
+
+        } else {
+
+            perseguir = Phaser.Math.Between(0, 10);
+
+            if (perseguir < 5 + Settings.getNivel()) {
+                this.fantasma_persigue();
+                
+            } else {
+                this.elegir_otra_direccion();
+            }
+
+            this.nuevos_valores();
+        }
+    }
+
+    fantasma_persigue() {
+
+    }
+
+    nuevos_valores() {
+
     }
 
     get() {

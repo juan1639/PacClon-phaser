@@ -1,6 +1,5 @@
 import { Settings } from '../scenes/settings.js';
 
-// ===========================================================================
 export class Marcador {
 
     constructor(scene, datos) {

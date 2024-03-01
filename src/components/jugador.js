@@ -58,9 +58,9 @@ export class Jugador {
             if (this.controles[tecla].isDown) this.intentoGiro = tecla;
         });
 
-        if (this.jugador.x % Settings.tileXY.y === 0 && this.jugador.y % Settings.tileXY.y === 0) {
+        if (this.jugador.x % Settings.tileXY.x === 0 && this.jugador.y % Settings.tileXY.y === 0) {
             
-            const x = Math.floor(this.jugador.x / Settings.tileXY.y) + direcc[this.intentoGiro][0];
+            const x = Math.floor(this.jugador.x / Settings.tileXY.x) + direcc[this.intentoGiro][0];
             const y = Math.floor(this.jugador.y / Settings.tileXY.y) + direcc[this.intentoGiro][1];
             
             if (Laberinto.array_laberinto[y][x] !== 9) {
@@ -69,12 +69,12 @@ export class Jugador {
             }
         }
 
-        const ancho = direcc[this.direccion][2] * (Settings.tileXY.y - Jugador.VEL);
+        const ancho = direcc[this.direccion][2] * (Settings.tileXY.x - Jugador.VEL);
         const alto = direcc[this.direccion][3] * (Settings.tileXY.y - Jugador.VEL);
         const offsetX = direcc[this.direccion][0] * Jugador.VEL;
         const offsetY = direcc[this.direccion][1] * Jugador.VEL;
         
-        const x = Math.floor((this.jugador.x + offsetX + ancho) / Settings.tileXY.y);
+        const x = Math.floor((this.jugador.x + offsetX + ancho) / Settings.tileXY.x);
         const y = Math.floor((this.jugador.y + offsetY + alto) / Settings.tileXY.y);
 
         if (Laberinto.array_laberinto[y][x] !== 9) {

@@ -46,6 +46,12 @@ export class Laberinto {
         console.log(this.tile);
     }
 
+    static check_colision(x, y) {
+
+        if (Laberinto.array_laberinto[y][x] === 9) return true;
+        return false;
+    }
+
     get() {
         return this.tile;
     }
