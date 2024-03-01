@@ -8,7 +8,10 @@ export function loader(scene) {
   scene.load.image('sparkle', './src/img/sparkle1.png');
 
   scene.load.spritesheet('pacman', './src/img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
-  scene.load.spritesheet('fantasma0', './src/img/fantasmaSsheet0.png', {frameWidth: 640, frameHeight: 590});
+
+  for (let i = 0; i < 4; i ++) {
+    scene.load.spritesheet(`fantasma${i}`, `./src/img/fantasmaSsheet${i}.png`, {frameWidth: 640, frameHeight: 640});
+  }
 
   scene.load.image('boton-continuar', './src/img/boton-continuar.png');
   scene.load.image('boton-nueva-partida', './src/img/boton-start.png');

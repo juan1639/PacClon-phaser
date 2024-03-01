@@ -20,7 +20,7 @@ export class Fantasma {
     create() {
 
         this.fantasmas = this.relatedScene.physics.add.group({
-            key: ['fantasma0', 'fantasma0', 'fantasma0', 'fantasma0'],
+            key: ['fantasma0', 'fantasma1', 'fantasma2', 'fantasma3'],
             frameQuantity: 1,
             setXY: {
                 x: Settings.fantasmasIniXY.azul[0] * Settings.tileXY.x,
@@ -31,22 +31,23 @@ export class Fantasma {
 
         this.fantasmas.children.iterate((fant => {
 
-            fant.setAngle(0).setScale(0.1, 0.11).setFrame(0);
+            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0);
         }));
         
         this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
 
-        this.relatedScene.anims.create({
-            key: 'sabana', 
-            frames: this.relatedScene.anims.generateFrameNumbers('fantasma0', {start: 0, end: 1}),
-            frameRate: 8,
-            yoyo: true,
-            repeat: -1
-        });
+        this.fantasmas.children.iterate((fant, index) => {
 
-        this.fantasmas.children.iterate(fant => {
-            fant.anims.play('sabana', true);
+            this.relatedScene.anims.create({
+                key: `sabana${index}`, 
+                frames: this.relatedScene.anims.generateFrameNumbers(`fantasma${index}`, {start: 0, end: 1}),
+                frameRate: 8,
+                yoyo: true,
+                repeat: -1
+            });
+
+            fant.anims.play(`sabana${index}`, true);
         });
 
         console.log(this.fantasmas);
