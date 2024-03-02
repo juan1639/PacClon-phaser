@@ -20,6 +20,7 @@ export function loader(scene) {
 
   scene.load.image('cruceta-left', './src/img/left.png');
   scene.load.image('cruceta-right', './src/img/right.png');
+  scene.load.image('icono-gamepad', './src/img/icono-gamePad.png');
   scene.load.spritesheet('boton-fullscreen', './src/img/boton-fullscreen.png', {frameWidth: 64, frameHeight: 64});
 
   // ---------------------------------------------------------------------------

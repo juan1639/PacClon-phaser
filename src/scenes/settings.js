@@ -31,7 +31,7 @@ export class Settings {
         pink: [16, 8],
     };
 
-    static botonesYcruceta = true;
+    static botonesYcruceta = false;
 
     static coorCruceta = {
         xx: 60,

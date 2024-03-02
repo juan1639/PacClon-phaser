@@ -10,7 +10,7 @@ import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { elastic } from '../utils/functions.js';
 import { BotonFullScreen } from '../components/boton-nuevapartida.js';
-import { CrucetaDireccion } from '../components/botonycruceta.js';
+import { CrucetaDireccion, IconoGamePad } from '../components/botonycruceta.js';
 
 import {
   play_sonidos,
@@ -57,6 +57,7 @@ export class Game extends Phaser.Scene {
     
     this.crucetaleft = new CrucetaDireccion(this, {
       id: 'cruceta-left',
+      press: 'left',
       x: xx, y: yy,
       ang: 0,
       scX: sizeX, scY: sizeY
@@ -64,6 +65,7 @@ export class Game extends Phaser.Scene {
     
     this.crucetaright = new CrucetaDireccion(this, {
       id: 'cruceta-right',
+      press: 'right',
       x: xx + 350, y: yy,
       ang: 0,
       scX: sizeX, scY: sizeY
@@ -71,6 +73,7 @@ export class Game extends Phaser.Scene {
     
     this.crucetaup = new CrucetaDireccion(this, {
       id: 'cruceta-left',
+      press: 'up',
       x: xx + 175, y: yy - 80,
       ang: 90,
       scX: sizeX - 0.7, scY: sizeY + 0.1
@@ -78,9 +81,17 @@ export class Game extends Phaser.Scene {
     
     this.crucetadown = new CrucetaDireccion(this, {
       id: 'cruceta-left',
+      press: 'down',
       x: xx + 175, y: yy + 122,
       ang: 270,
       scX: sizeX + 1, scY: sizeY + 0.1
+    });
+
+    this.iconogamepad = new IconoGamePad(this, {
+      id: 'icono-gamepad',
+      x: xx + 90, y: yy,
+      ang: 0,
+      scX: 2, scY: 2
     });
 
     /* this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.4, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1 });
@@ -115,6 +126,7 @@ export class Game extends Phaser.Scene {
     this.crucetaright.create();
     this.crucetaup.create();
     this.crucetadown.create();
+    this.iconogamepad.create();
 
     this.cameras.main.startFollow(this.jugador.get());
     // this.cameras.main.followOffset.set(0, 0);
@@ -127,6 +139,8 @@ export class Game extends Phaser.Scene {
     if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
     if (!this.pausa_inicial.activa) this.jugador.update();
     if (!this.pausa_inicial.activa) this.fantasmas.update();
+
+    this.mobile_controls();
   }
 
   set_pausaInicial(tiempo) {
@@ -173,6 +187,20 @@ export class Game extends Phaser.Scene {
     /* this.physics.add.collider(this.jugador.get(), this.laberinto.get(), (jugador, laberinto) => {
       console.log(jugador.touching.up);
     }); */
+  }
+
+  mobile_controls() {
+
+    if (!Settings.isBotonesYcruceta() && this.iconogamepad.isDown) {
+
+      Settings.setBotonesYcruceta(true);
+      this.iconogamepad.get().setVisible(false);
+
+      this.crucetaleft.get().setVisible(true);
+      this.crucetaright.get().setVisible(true);
+      this.crucetaup.get().setVisible(true);
+      this.crucetadown.get().setVisible(true);
+    }
   }
 
   set_cameras() {
