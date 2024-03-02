@@ -18,6 +18,11 @@ export class Settings {
     static hi = 12000;
     static vidas = 3;
 
+    static pausa = {
+        inicial: 4300,
+        pacmanDies: 4300
+    };
+
     static pacman = {
         iniX: 9,
         iniY: 4,

@@ -25,7 +25,7 @@ export class Jugador {
             'pacman'
         );
 
-        this.jugador.setAngle(0);
+        this.jugador.setAngle(0).setCircle(Math.floor(Settings.tileXY.y / 2));
         this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
 
@@ -51,6 +51,8 @@ export class Jugador {
     }
 
     update() {
+
+        if (!this.jugador.body.enable) return;
 
         const direcc = Jugador.INFO_DIRECCION;
 
@@ -111,3 +113,30 @@ export class Jugador {
     }
 }
 
+// ================================================================================
+export class JugadorDies {
+
+    constructor(scene) {
+        this.relatedScene = scene;
+    }
+
+    create(x, y) {
+
+        this.jugadordies = this.relatedScene.physics.add.sprite(x, y, 'pacman');
+
+        this.jugadordies.setFrame(4);
+
+        this.relatedScene.tweens.add({
+            targets: this.jugadordies,
+            angle: 359,
+            duration: 2000,
+            repeat: 1
+        });
+
+        console.log(this.jugadordies);
+    }
+
+    get() {
+        return this.jugadordies;
+    }
+}

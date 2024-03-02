@@ -50,6 +50,7 @@ export class Fantasma {
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
             fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
+            fant.setCircle(Math.floor(Settings.tileXY.y / 2));
         }));
 
         this.fantasmas.children.iterate((fant, index) => {

@@ -4,15 +4,15 @@
 // -----------------------------------------------------------------------------------------
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
-import { Jugador } from '../components/jugador.js';
+import { Jugador, JugadorDies } from '../components/jugador.js';
 import { Fantasma } from '../components/fantasma.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
-import { elastic } from '../utils/functions.js';
 import { BotonFullScreen } from '../components/boton-nuevapartida.js';
 import { CrucetaDireccion, IconoGamePad } from '../components/botonycruceta.js';
 
 import {
+  elastic,
   play_sonidos,
   suma_puntos,
   textos
@@ -32,6 +32,7 @@ export class Game extends Phaser.Scene {
     this.puntito = new Puntitos(this);
     this.puntitogordo = new PuntitosGordos(this);
     this.jugador = new Jugador(this);
+    this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
 
     const ancho = this.sys.game.config.width;
@@ -180,13 +181,27 @@ export class Game extends Phaser.Scene {
       suma_puntos(puntito);
       this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
       puntito.disableBody(true, true);
-    
+      play_sonidos(this.sonido_waka, false, 0.9);
     });
 
-    // this.physics.add.collider(this.jugador.get(), this.laberinto.get(), (jug, plat) => {console.log(jug.body.touching.right);});
-    /* this.physics.add.collider(this.jugador.get(), this.laberinto.get(), (jugador, laberinto) => {
-      console.log(jugador.touching.up);
-    }); */
+    this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), (jugador, fantasma) => {
+
+      jugador.disableBody(true, true);
+      this.jugadordies.create(jugador.x, jugador.y);
+
+      this.timeline = this.add.timeline([
+        {
+          at: Settings.pausa.pacmanDies,
+          run: () => {
+            this.jugadordies.get().disableBody(true, true);
+            this.jugador.get().enableBody(
+              true, Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.x, true, true
+            );
+          }
+        }
+      ]);
+      this.timeline.play();
+    });
   }
 
   mobile_controls() {
@@ -239,6 +254,8 @@ export class Game extends Phaser.Scene {
   set_sonidos() {
 
     this.sonido_preparado = this.sound.add('sonidoPacmanInicioNivel');
-    play_sonidos(this.sonido_preparado, false, 0.8)
+    play_sonidos(this.sonido_preparado, false, 0.8);
+
+    this.sonido_waka = this.sound.add('sonidoWakaWaka');
   }
 }
