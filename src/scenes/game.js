@@ -52,7 +52,7 @@ export class Game extends Phaser.Scene {
       x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 35, txt: ' Record: ', color: '#fff', id: 2
     });
 
-    this.botonfullscreen = new BotonFullScreen(this, { x: Math.floor(ancho * 1.4), y: marcadoresPosY });
+    this.botonfullscreen = new BotonFullScreen(this, { x: Math.floor(ancho * 1.3), y: marcadoresPosY });
 
     var { xx, yy, sizeX, sizeY } = Settings.getCoorCruceta();
     
@@ -186,6 +186,8 @@ export class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), (jugador, fantasma) => {
 
+      play_sonidos(this.sonido_jugadorDies, false, 0.7);
+
       jugador.disableBody(true, true);
       this.jugadordies.create(jugador.x, jugador.y);
 
@@ -197,6 +199,13 @@ export class Game extends Phaser.Scene {
             this.jugador.get().enableBody(
               true, Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.x, true, true
             );
+            this.jugador.intentoGiro = 'right';
+            this.jugador.direccion = 'right';
+
+            this.fantasmas.get().children.iterate((fant, index) => {
+              fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * Settings.tileXY.x);
+              fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * Settings.tileXY.y);
+            });
           }
         }
       ]);
@@ -257,5 +266,7 @@ export class Game extends Phaser.Scene {
     play_sonidos(this.sonido_preparado, false, 0.8);
 
     this.sonido_waka = this.sound.add('sonidoWakaWaka');
+    this.sonido_jugadorDies = this.sound.add('sonidoPacmanDies');
+
   }
 }

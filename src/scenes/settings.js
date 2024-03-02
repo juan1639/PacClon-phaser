@@ -20,7 +20,7 @@ export class Settings {
 
     static pausa = {
         inicial: 4300,
-        pacmanDies: 4300
+        pacmanDies: 3100
     };
 
     static pacman = {

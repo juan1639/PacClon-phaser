@@ -49,8 +49,8 @@ export class Fantasma {
 
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
+            fant.setCircle(Math.floor(Settings.tileXY.y / 1));
             fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
-            fant.setCircle(Math.floor(Settings.tileXY.y / 2));
         }));
 
         this.fantasmas.children.iterate((fant, index) => {
@@ -70,6 +70,8 @@ export class Fantasma {
     }
 
     update() {
+
+        if (!this.relatedScene.jugador.get().body.enable) return;
 
         const direcc = Fantasma.INFO_DIRECCION;
 

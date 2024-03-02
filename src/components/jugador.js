@@ -129,8 +129,8 @@ export class JugadorDies {
         this.relatedScene.tweens.add({
             targets: this.jugadordies,
             angle: 359,
-            duration: 2000,
-            repeat: 1
+            duration: 1000,
+            repeat: 2
         });
 
         console.log(this.jugadordies);
