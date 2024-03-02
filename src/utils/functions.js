@@ -37,7 +37,7 @@ function suma_puntos(puntos) {
 
     const bonus = Settings.getPuntos() + puntos.getData('puntos');
     Settings.setPuntos(bonus);
-    console.log(bonus, Settings.getPuntos());
+    // console.log(bonus, Settings.getPuntos());
 }
 
 // =================================================================================

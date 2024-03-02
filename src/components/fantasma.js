@@ -121,7 +121,7 @@ export class Fantasma {
                     fant.setData('direccion', this.elegir_otra_direccion(direcc, fant));
                 }
 
-                this.set_flips(fant);
+                this.set_flips(fant, index);
             }
         });
     }
@@ -163,7 +163,7 @@ export class Fantasma {
 
         } else if (fant.getData('direccion') === 'right') {
             fant.setFlipX(false);
-        }
+        } 
     }
 
     get() {
