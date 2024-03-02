@@ -49,7 +49,7 @@ export class Fantasma {
 
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
-            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0);
+            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
         }));
 
         this.fantasmas.children.iterate((fant, index) => {
@@ -89,6 +89,7 @@ export class Fantasma {
 
                     if (perseguir < 7 + Settings.getNivel()) {
                         this.fantasma_persigue(fant);
+                        this.set_flips(fant);
                     }
                 }
             }
@@ -119,6 +120,8 @@ export class Fantasma {
                 } else {
                     fant.setData('direccion', this.elegir_otra_direccion(direcc, fant));
                 }
+
+                this.set_flips(fant);
             }
         });
     }
@@ -150,6 +153,16 @@ export class Fantasma {
             } else {
                 fant.setData('direccion', 'left');
             }
+        }
+    }
+
+    set_flips(fant) {
+
+        if (fant.getData('direccion') === 'left') {
+            fant.setFlipX(true);
+
+        } else if (fant.getData('direccion') === 'right') {
+            fant.setFlipX(false);
         }
     }
 
