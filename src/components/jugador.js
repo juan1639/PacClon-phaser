@@ -97,6 +97,10 @@ export class Jugador {
         if (Laberinto.array_laberinto[y][x] !== 9) {
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
+
+            // Escapatorias
+            if (this.jugador.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && direcc[this.direccion][0] > 0) this.jugador.x = -Settings.tileXY.x;
+            if (this.jugador.x < -Settings.tileXY.x && direcc[this.direccion][0] < 0) this.jugador.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
         }
 
         // console.log(this.jugador.x, this.jugador.y);

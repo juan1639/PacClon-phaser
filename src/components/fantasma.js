@@ -107,8 +107,8 @@ export class Fantasma {
                 fant.x += direcc[fant.getData('direccion')][0] * Fantasma.VEL;
                 fant.y += direcc[fant.getData('direccion')][1] * Fantasma.VEL;
 
-                // if (this.x > settings.constante.nro_columnas * settings.constante.bsx && this.velX > 0) this.x = -settings.constante.bsx;
-                // if (this.x < -settings.constante.bsx && this.velX < 0) this.x = settings.constante.nro_columnas * settings.constante.bsx;
+                if (fant.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && fant.getData('direccion') === 'right') fant.x = -Settings.tileXY.x;
+                if (fant.x < -Settings.tileXY.x && fant.getData('direccion') === 'left') fant.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
 
             } else {
 
