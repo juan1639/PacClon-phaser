@@ -36,7 +36,7 @@ export class Fantasma {
     create() {
 
         this.fantasmas = this.relatedScene.physics.add.group({
-            key: ['fantasma0', 'fantasma1', 'fantasma2', 'fantasma3'],
+            key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
             frameQuantity: 1,
             setXY: {
                 x: Settings.fantasmasIniXY.azul[0] * Settings.tileXY.x,
@@ -49,21 +49,26 @@ export class Fantasma {
 
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
-            fant.setCircle(Math.floor(Settings.tileXY.y / 1));
-            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
+            fant.setCircle(Math.floor(Settings.tileXY.y / 3));
+            fant.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false);
         }));
 
         this.fantasmas.children.iterate((fant, index) => {
 
-            this.relatedScene.anims.create({
-                key: `sabana${index}`, 
-                frames: this.relatedScene.anims.generateFrameNumbers(`fantasma${index}`, {start: 0, end: 1}),
-                frameRate: 8,
-                yoyo: true,
-                repeat: -1
-            });
+            for (let i = 0; i < 4; i ++) {
 
-            fant.anims.play(`sabana${index}`, true);
+                this.relatedScene.anims.remove(`anim${index}${i}`);
+
+                this.relatedScene.anims.create({
+                    key: `anim${index}${i}`, 
+                    frames: this.relatedScene.anims.generateFrameNumbers(`fantanim${index}${i}`, {start: 0, end: 1}),
+                    frameRate: 8,
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+
+            fant.anims.play(`anim${index}0`, true);
         });
 
         console.log(this.fantasmas);
@@ -92,7 +97,7 @@ export class Fantasma {
 
                     if (perseguir < 7 + Settings.getNivel()) {
                         this.fantasma_persigue(fant);
-                        this.set_flips(fant);
+                        this.set_flips(fant, index);
                     }
                 }
             }
@@ -159,14 +164,20 @@ export class Fantasma {
         }
     }
 
-    set_flips(fant) {
+    set_flips(fant, index) {
 
         if (fant.getData('direccion') === 'left') {
-            fant.setFlipX(true);
-
+            fant.anims.play(`anim${index}1`, true);
+            
         } else if (fant.getData('direccion') === 'right') {
-            fant.setFlipX(false);
-        } 
+            fant.anims.play(`anim${index}0`, true);
+            
+        } else if (fant.getData('direccion') === 'up') {
+            fant.anims.play(`anim${index}2`, true);
+
+        } else if (fant.getData('direccion') === 'down') {
+            fant.anims.play(`anim${index}3`, true);
+        }
     }
 
     get() {
@@ -195,20 +206,23 @@ export class FantasmaPreGame {
 
         this.fantasmaspregame.children.iterate((fant => {
 
-            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
+            fant.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false);
         }));
 
         this.fantasmaspregame.children.iterate((fant, index) => {
 
-            this.relatedScene.anims.create({
-                key: `sabana${index}`, 
-                frames: this.relatedScene.anims.generateFrameNumbers(`fantasma${index}`, {start: 0, end: 1}),
-                frameRate: 8,
-                yoyo: true,
-                repeat: -1
-            });
+            for (let i = 0; i < 4; i ++) {
 
-            fant.anims.play(`sabana${index}`, true);
+                this.relatedScene.anims.create({
+                    key: `anim${index}${i}`, 
+                    frames: this.relatedScene.anims.generateFrameNumbers(`fantanim${index}${i}`, {start: 0, end: 1}),
+                    frameRate: 8,
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+
+            fant.anims.play(`anim${index}0`, true);
 
             const duracionTotal = 9000;
 

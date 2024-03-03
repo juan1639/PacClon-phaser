@@ -21,9 +21,11 @@ export class Jugador {
 
         this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
-        this.jugador.setAngle(0).setCircle(Math.floor(Settings.tileXY.y / 2));
+        this.jugador.setAngle(0).setCircle(Math.floor(Settings.tileXY.y / 3));
         this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
+
+        this.relatedScene.anims.remove('le-ri-up-do');
 
         this.relatedScene.anims.create({
             key: 'le-ri-up-do', 

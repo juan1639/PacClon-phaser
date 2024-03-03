@@ -10,7 +10,10 @@ export function loader(scene) {
   scene.load.spritesheet('pacman', './src/img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
 
   for (let i = 0; i < 4; i ++) {
-    scene.load.spritesheet(`fantasma${i}`, `./src/img/fantasmaSsheet${i}.png`, {frameWidth: 640, frameHeight: 640});
+    scene.load.spritesheet(`fantanim0${i}`, `./src/img/fantanim0${i}.png`, {frameWidth: 50, frameHeight: 50});
+    scene.load.spritesheet(`fantanim1${i}`, `./src/img/fantanim1${i}.png`, {frameWidth: 50, frameHeight: 50});
+    scene.load.spritesheet(`fantanim2${i}`, `./src/img/fantanim2${i}.png`, {frameWidth: 50, frameHeight: 50});
+    scene.load.spritesheet(`fantanim3${i}`, `./src/img/fantanim3${i}.png`, {frameWidth: 50, frameHeight: 50});
   }
 
   scene.load.image('boton-continuar', './src/img/boton-continuar.png');

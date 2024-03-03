@@ -45,15 +45,15 @@ export class Game extends Phaser.Scene {
     this.jugadorshowvidas = new JugadorShowVidas(this, { left: Math.floor(ancho * 1.4), top: marcadoresPosY });
 
     this.marcadorPtos = new Marcador(this, {
-      x: 10, y: marcadoresPosY, size: 35, txt: ' Puntos: ', color: '#fff', id: 0
+      x: 10, y: marcadoresPosY, size: 40, txt: ' Puntos: ', color: '#fff', id: 0
     });
 
     this.marcadorNivel = new Marcador(this, {
-      x: Math.floor(ancho / 2), y: marcadoresPosY, size: 35, txt: ' Nivel: ', color: '#ff5', id: 1
+      x: Math.floor(ancho / 2), y: marcadoresPosY, size: 40, txt: ' Nivel: ', color: '#ff5', id: 1
     });
 
     this.marcadorHi = new Marcador(this, {
-      x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 35, txt: ' Record: ', color: '#fff', id: 2
+      x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 40, txt: ' Record: ', color: '#fff', id: 2
     });
 
     this.botonfullscreen = new BotonFullScreen(this, { x: Math.floor(ancho * 1.3), y: marcadoresPosY });
