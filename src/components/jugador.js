@@ -17,13 +17,9 @@ export class Jugador {
         this.relatedScene = scene;
     }
 
-    create() {
+    create(x, y) {
 
-        this.jugador = this.relatedScene.physics.add.sprite(
-            Settings.pacman.iniX * Settings.tileXY.x,
-            Settings.pacman.iniY * Settings.tileXY.y,
-            'pacman'
-        );
+        this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
         this.jugador.setAngle(0).setCircle(Math.floor(Settings.tileXY.y / 2));
         this.intentoGiro = 'right';
@@ -138,5 +134,79 @@ export class JugadorDies {
 
     get() {
         return this.jugadordies;
+    }
+}
+
+// ================================================================================
+export class JugadorShowVidas {
+
+    constructor(scene, args) {
+        this.relatedScene = scene;
+        this.args = args;
+    }
+
+    create() {
+
+        const { left, top } = this.args;
+
+        this.jugadorshowvidas = this.relatedScene.physics.add.group({
+            key: ['pacman'],
+            frameQuantity: 3,
+            setXY: {
+                x: left,
+                y: top,
+                stepX: Settings.tileXY.x
+            },
+            frame: 4
+        });
+
+        this.jugadorshowvidas.children.iterate(vida => {
+            vida.setOrigin(0.5, 0).setScale(1, 0.7).setBlendMode(Phaser.BlendModes.ADD);
+        });
+
+        console.log(this.jugadorshowvidas);
+    }
+
+    get() {
+        return this.jugadorshowvidas;
+    }
+}
+
+// ================================================================================
+export class JugadorPreGame {
+
+    constructor(scene) {
+        this.relatedScene = scene;
+    }
+
+    create(x, y) {
+
+        this.jugadorpregame = this.relatedScene.physics.add.sprite(x, y, 'pacman');
+
+        this.jugadorpregame.setAngle(0);
+
+        this.relatedScene.anims.create({
+            key: 'le-ri-up-do', 
+            frames: this.relatedScene.anims.generateFrameNumbers('pacman', {start: 0, end: 6}),
+            frameRate: 30,
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.jugadorpregame.anims.play('le-ri-up-do', true);
+
+        const duracionTotal = 8000;
+
+        this.relatedScene.tweens.add({
+            targets: this.jugadorpregame,
+            x: this.relatedScene.sys.game.config.width + Settings.tileXY.x * 2,
+            yoyo: true,
+            duration: duracionTotal,
+            repeat: -1
+        });
+
+        setInterval(() => {this.jugadorpregame.setFlipX(!this.jugadorpregame.flipX)}, duracionTotal);
+
+        console.log(this.jugadorpregame);
     }
 }

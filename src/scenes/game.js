@@ -4,16 +4,18 @@
 // -----------------------------------------------------------------------------------------
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
-import { Jugador, JugadorDies } from '../components/jugador.js';
+import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { Fantasma } from '../components/fantasma.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
-import { BotonFullScreen } from '../components/boton-nuevapartida.js';
+import { BotonFullScreen, BotonNuevaPartida } from '../components/boton-nuevapartida.js';
 import { CrucetaDireccion, IconoGamePad } from '../components/botonycruceta.js';
+import { GameOver } from '../components/game-over.js';
 
 import {
   elastic,
   play_sonidos,
+  restar_vida,
   suma_puntos,
   textos
 } from '../utils/functions.js';
@@ -39,6 +41,8 @@ export class Game extends Phaser.Scene {
     const alto = this.sys.game.config.height;
 
     const marcadoresPosY = -99;
+
+    this.jugadorshowvidas = new JugadorShowVidas(this, { left: Math.floor(ancho * 1.4), top: marcadoresPosY });
 
     this.marcadorPtos = new Marcador(this, {
       x: 10, y: marcadoresPosY, size: 35, txt: ' Puntos: ', color: '#fff', id: 0
@@ -95,6 +99,9 @@ export class Game extends Phaser.Scene {
       scX: 2, scY: 2
     });
 
+    this.gameover = new GameOver(this);
+    this.botonrejugar = new BotonNuevaPartida(this);
+
     /* this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.4, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1 });
     this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 0, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1});
     this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.28, ang: 90, scX: 1.6, scY: 2.2 });
@@ -115,8 +122,10 @@ export class Game extends Phaser.Scene {
     this.laberinto.create();
     this.puntito.create();
     this.puntitogordo.create();
-    this.jugador.create();
+    this.jugador.create(Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.y);
     this.fantasmas.create();
+
+    this.jugadorshowvidas.create();
     
     this.marcadorPtos.create();
     this.marcadorNivel.create();
@@ -138,8 +147,8 @@ export class Game extends Phaser.Scene {
   update() {
 
     if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
-    if (!this.pausa_inicial.activa) this.jugador.update();
-    if (!this.pausa_inicial.activa) this.fantasmas.update();
+    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.jugador.update();
+    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.fantasmas.update();
 
     this.mobile_controls();
   }
@@ -202,9 +211,29 @@ export class Game extends Phaser.Scene {
             this.jugador.intentoGiro = 'right';
             this.jugador.direccion = 'right';
 
+            restar_vida();
+
+            if (Settings.getVidas() < 0) {
+
+              Settings.setGameOver(true);
+              this.jugador.get().destroy();
+              this.gameover.create();
+              this.cameras.main.startFollow(this.gameover.get());
+            }
+
+            this.jugadorshowvidas.get().children.iterate((vida, index) => {
+              if (index === Settings.getVidas()) vida.setVisible(false);
+            });
+
             this.fantasmas.get().children.iterate((fant, index) => {
-              fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * Settings.tileXY.x);
-              fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * Settings.tileXY.y);
+
+              if (Settings.isGameOver()) {
+                fant.setVisible(false);
+
+              } else {
+                fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * Settings.tileXY.x);
+                fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * Settings.tileXY.y);
+              }
             });
           }
         }

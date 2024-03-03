@@ -1,47 +1,39 @@
-import { Marcador } from '../components/marcador.js';
-import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
-import { textos } from '../utils/functions.js';
-import { Settings } from './settings.js';
+import { textos } from "../utils/functions.js";
+import { Settings } from '../scenes/settings.js';
 
-// ==========================================================================
-export class GameOver extends Phaser.Scene {
+export class GameOver {
 
-  constructor() {
-
-    super({ key: 'gameover' });
-    // this.marcador = new Marcador(this);
-    this.botonrejugar = new BotonNuevaPartida(this);
+  constructor(scene) {
+    this.relatedScene = scene;
   }
   
   create() {
 
-    this.sonidoGameOver = this.sound.add('sonidoGameOverRetro');
-
-    this.add.image(0, 0, 'fondo').setOrigin(0, 0);
-    // this.marcador.create();
+    this.sonidoGameOver = this.relatedScene.sound.add('sonidoGameOverRetro');
 
     const duracionThisScene = 7000;
 
     this.txt1 = textos([
-      Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 3),
-      ' Game Over ', 90, 'bold', 1, 1, '#f91', 15, true, '#fb2', 'verdana, arial, sans-serif',
-      this.sys.game.config.width, 1
-    ],this);
+      Math.floor(this.relatedScene.sys.game.config.width / 2),
+      Math.floor(this.relatedScene.sys.game.config.height / 3),
+      ' Game Over ', 90, 'bold', 1, 1, '#f41', 15, true, '#ffb', 'verdana, arial, sans-serif',
+      this.relatedScene.sys.game.config.width, 1
+    ], this.relatedScene);
 
     this.txt1.setAlpha(0);
 
-    this.tweens.add({
+    this.relatedScene.tweens.add({
       targets: this.txt1,
       alpha: 1,
       duration: Math.floor(duracionThisScene / 2),
       // repeat: 1
     });
 
-    this.timeline = this.add.timeline([
+    this.timeline = this.relatedScene.add.timeline([
       {
         at: duracionThisScene,
         run: () => {
-          this.botonrejugar.create('menuprincipal');
+          this.relatedScene.botonrejugar.create('menuprincipal');
         }
       }
     ]);
@@ -78,5 +70,9 @@ export class GameOver extends Phaser.Scene {
         repeatDelay: 3000
       });
     } 
+  }
+
+  get() {
+    return this.txt1;
   }
 }

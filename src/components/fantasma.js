@@ -173,3 +173,56 @@ export class Fantasma {
         return this.fantasmas;
     }
 }
+
+// ===========================================================================
+export class FantasmaPreGame {
+
+    constructor(scene) {
+        this.relatedScene = scene;
+    }
+
+    create() {
+
+        this.fantasmaspregame = this.relatedScene.physics.add.group({
+            key: ['fantasma0', 'fantasma1', 'fantasma2', 'fantasma3'],
+            frameQuantity: 1,
+            setXY: {
+                x: (Settings.fantasmasIniXY.azul[0] - 12) * Settings.tileXY.x,
+                y: (Settings.fantasmasIniXY.azul[1] - 7) * Settings.tileXY.y,
+                stepX: Settings.tileXY.x
+            }
+        });
+
+        this.fantasmaspregame.children.iterate((fant => {
+
+            fant.setAngle(0).setScale(0.1, 0.1).setFrame(0).setFlipX(false);
+        }));
+
+        this.fantasmaspregame.children.iterate((fant, index) => {
+
+            this.relatedScene.anims.create({
+                key: `sabana${index}`, 
+                frames: this.relatedScene.anims.generateFrameNumbers(`fantasma${index}`, {start: 0, end: 1}),
+                frameRate: 8,
+                yoyo: true,
+                repeat: -1
+            });
+
+            fant.anims.play(`sabana${index}`, true);
+
+            const duracionTotal = 9000;
+
+            this.relatedScene.tweens.add({
+                targets: fant,
+                x: this.relatedScene.sys.game.config.width + Settings.tileXY.x * 2,
+                yoyo: true,
+                duration: duracionTotal,
+                repeat: -1
+            });
+
+            setInterval(() => {fant.setFlipX(!fant.flipX)}, duracionTotal);
+        });
+
+        console.log(this.fantasmaspregame);
+    }
+}

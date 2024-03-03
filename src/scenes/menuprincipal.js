@@ -1,3 +1,5 @@
+import { JugadorPreGame } from '../components/jugador.js';
+import { FantasmaPreGame } from '../components/fantasma.js';
 import { loader } from './loader.js';
 import { Settings } from './settings.js';
 import { BotonNuevaPartida, BotonSettings } from "../components/boton-nuevapartida.js";
@@ -19,9 +21,13 @@ export class MenuPrincipal extends Phaser.Scene {
         Settings.setPuntos(0);
         Settings.setNivel(1);
         Settings.setVidas(3);
+        Settings.setGameOver(false);
 
         this.botoninicio = new BotonNuevaPartida(this);
         this.botonsettings = new BotonSettings(this);
+
+        this.jugador = new JugadorPreGame(this);
+        this.fantasmaspregame = new FantasmaPreGame(this);
     } 
 
     preload() {
@@ -52,6 +58,8 @@ export class MenuPrincipal extends Phaser.Scene {
         this.sonido_intermision = this.sound.add('sonidoPacmanIntermision');
 
         this.add.image(0, 0, 'fondo').setOrigin(0, 0);
+        this.jugador.create(Settings.pacmanPregame.iniX * Settings.tileXY.x, Settings.pacmanPregame.iniY * Settings.tileXY.y);
+        this.fantasmaspregame.create();
 
         const coorXY = [
             Math.floor(this.sys.game.config.width / 5.2),

@@ -17,6 +17,7 @@ export class Settings {
     static nivel = 1;
     static hi = 12000;
     static vidas = 3;
+    static gameOver = false;
 
     static pausa = {
         inicial: 4300,
@@ -26,6 +27,12 @@ export class Settings {
     static pacman = {
         iniX: 9,
         iniY: 4,
+        vel: 4
+    };
+
+    static pacmanPregame = {
+        iniX: -4,
+        iniY: 2,
         vel: 4
     };
 
@@ -112,6 +119,10 @@ export class Settings {
         return Settings.vidas;
     }
 
+    static isGameOver() {
+        return Settings.gameOver;
+    }
+
     static isBotonesYcruceta() {
         return Settings.botonesYcruceta;
     }
@@ -151,6 +162,10 @@ export class Settings {
 
     static setVidas(lifes) {
         Settings.vidas = lifes;
+    }
+
+    static setGameOver(bool) {
+        Settings.gameOver = bool;
     }
 
     static setBotonesYcruceta(bool) {
