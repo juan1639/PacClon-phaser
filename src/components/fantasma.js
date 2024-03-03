@@ -82,6 +82,10 @@ export class Fantasma {
 
         this.fantasmas.children.iterate((fant, index) => {
 
+            if (Settings.isFantasmasScary()) {
+                fant.setTint(new Phaser.Display.Color(0, Phaser.Math.Between(60, 200), Phaser.Math.Between(60, 255)).color);
+            }
+
             let x = 0;
             let y = 0;
             let perseguir;
@@ -178,6 +182,20 @@ export class Fantasma {
         } else if (fant.getData('direccion') === 'down') {
             fant.anims.play(`anim${index}3`, true);
         }
+    }
+
+    duracion_scary() {
+
+        let duracion = Settings.getFantasmasScaryDuracion() - Settings.getNivel() * 900;
+        console.log(duracion);
+        
+        if (duracion < 1900) return 1900;
+        return duracion;
+    }
+
+    clear_tint() {
+
+        this.fantasmas.children.iterate(fant => fant.clearTint());
     }
 
     get() {

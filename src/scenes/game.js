@@ -193,6 +193,28 @@ export class Game extends Phaser.Scene {
       play_sonidos(this.sonido_waka, false, 0.9);
     });
 
+    this.physics.add.overlap(this.jugador.get(), this.puntitogordo.get(), (jugador, puntitogordo) => {
+
+      suma_puntos(puntitogordo);
+      this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
+
+      puntitogordo.disableBody(true, true);
+      Settings.setFantasmasScary(true);
+
+      setTimeout(() => {
+        Settings.setFantasmasScary(false);
+        this.fantasmas.clear_tint();
+
+      }, this.fantasmas.duracion_scary());
+      
+      play_sonidos(this.sonido_eatingGhost, false, 0.9);
+
+    }, () => {
+
+      if (Settings.isFantasmasScary()) return false;
+      return true;
+    });
+
     this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), (jugador, fantasma) => {
 
       play_sonidos(this.sonido_jugadorDies, false, 0.7);
@@ -296,6 +318,6 @@ export class Game extends Phaser.Scene {
 
     this.sonido_waka = this.sound.add('sonidoWakaWaka');
     this.sonido_jugadorDies = this.sound.add('sonidoPacmanDies');
-
+    this.sonido_eatingGhost = this.sound.add('sonidoPacmanEatingGhost');
   }
 }

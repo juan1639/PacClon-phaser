@@ -24,6 +24,11 @@ export class Settings {
         pacmanDies: 3100
     };
 
+    static fantasmasScary = {
+        activo: false,
+        duracion: 8000
+    };
+
     static pacman = {
         iniX: 9,
         iniY: 4,
@@ -119,6 +124,14 @@ export class Settings {
         return Settings.vidas;
     }
 
+    static isFantasmasScary() {
+        return Settings.fantasmasScary.activo;
+    }
+
+    static getFantasmasScaryDuracion() {
+        return Settings.fantasmasScary.duracion;
+    }
+
     static isGameOver() {
         return Settings.gameOver;
     }
@@ -162,6 +175,14 @@ export class Settings {
 
     static setVidas(lifes) {
         Settings.vidas = lifes;
+    }
+    
+    static setFantasmasScary(bool) {
+        Settings.fantasmasScary.activo = bool;
+    }
+
+    static setFantasmasScaryDuracion(tiempo) {
+        Settings.fantasmasScary.duracion = tiempo;
     }
 
     static setGameOver(bool) {

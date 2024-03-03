@@ -52,7 +52,7 @@ export class PuntitosGordos {
 
                 if (valor === 5) {
                     this.puntitosgordos.create(ii * Settings.tileXY.x, i * Settings.tileXY.y, 'puntito')
-                        .setScale(1.6).refreshBody();
+                        .setData('puntos', 50).setScale(1.6).refreshBody();
                 }
             }
         }
