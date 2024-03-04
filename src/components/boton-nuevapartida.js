@@ -92,7 +92,7 @@ export class BotonFullScreen {
 
     const { x, y } = this.args;
 
-    const escala = 0.8;
+    const escala = 0.9;
     const sizeXY = Math.floor((64 * escala) / 2);
 
     this.boton = this.relatedScene.add.sprite(x, y + sizeXY, 'boton-fullscreen').setInteractive();

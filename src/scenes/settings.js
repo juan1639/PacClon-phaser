@@ -46,12 +46,18 @@ export class Settings {
         rojo: [8, 8],
         verde: [12, 8],
         pink: [16, 8],
-    }; 
+    };
+
+    static fantasmasBonusInc = {
+        puntos: [200, 400, 800, 1600],
+        contador: 0,
+        duracion: 3200
+    };
 
     static cerezasIniXY = [9, 8];
 
     static bonusCerezas = [
-        300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000
+        300, 300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000
     ];
 
     static botonesYcruceta = false;
@@ -76,9 +82,9 @@ export class Settings {
         x: 0,
         y: 0,
         ancho: 800,
-        alto: 30,
+        alto: 34,
         scrollX: 0,
-        scrollY: -99
+        scrollY: -90
     };
 
     static depth = {
@@ -136,6 +142,10 @@ export class Settings {
 
     static getFantasmasScaryDuracion() {
         return Settings.fantasmasScary.duracion;
+    }
+
+    static getFantasmasBonusInc() {
+        return Settings.fantasmasBonusInc;
     }
 
     static isGameOver() {
@@ -197,6 +207,10 @@ export class Settings {
 
     static setFantasmasScaryDuracion(tiempo) {
         Settings.fantasmasScary.duracion = tiempo;
+    }
+
+    static setFantasmasBonusInc(valor) {
+        Settings.fantasmasBonusInc.contador = valor;
     }
 
     static setGameOver(bool) {

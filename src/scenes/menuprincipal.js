@@ -71,9 +71,11 @@ export class MenuPrincipal extends Phaser.Scene {
 
         this.txt1 = textos([
             coorXY[0], coorXY[1],
-            ' Pac Clon ', 99, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+            ' Pac Clon ', 99, 'bold', 1, 1, '#fa1', 15, true, '#dd9', 'verdana, arial, sans-serif',
             this.sys.game.config.width, 1
         ], this);
+
+        this.txt1.setStroke('#ea1', 16).setShadow(2, 2, '#111111', 2, false, true);
 
         elastic(this.txt1, coorXY[2], 2500, this);
 

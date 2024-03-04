@@ -45,7 +45,7 @@ export class Game extends Phaser.Scene {
 
     const marcadoresPosY = -99;
 
-    this.jugadorshowvidas = new JugadorShowVidas(this, { left: Math.floor(ancho * 1.4), top: marcadoresPosY });
+    this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
 
     this.marcadorPtos = new Marcador(this, {
       x: 10, y: marcadoresPosY, size: 40, txt: ' Puntos: ', color: '#fff', id: 0
@@ -59,7 +59,7 @@ export class Game extends Phaser.Scene {
       x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 40, txt: ' Record: ', color: '#fff', id: 2
     });
 
-    this.botonfullscreen = new BotonFullScreen(this, { x: Math.floor(ancho * 1.3), y: marcadoresPosY });
+    this.botonfullscreen = new BotonFullScreen(this, {x: Math.floor(ancho * 1.33), y: marcadoresPosY + 9});
 
     var { xx, yy, sizeX, sizeY } = Settings.getCoorCruceta();
     
@@ -175,6 +175,7 @@ export class Game extends Phaser.Scene {
     ], this);
 
     this.txt_preparado.setDepth(Settings.getDepth().textos);
+    this.txt_preparado.setStroke('#ee9011', 16).setShadow(2, 2, '#111111', 2, false, true);
 
     elastic(this.txt_preparado, this.sys.game.config.height / 1.7, 3000, this);
 
@@ -298,6 +299,16 @@ export class Game extends Phaser.Scene {
       this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
       cerezas.disableBody(true, true);
       play_sonidos(this.sonido_eatingCherry, false, 0.9);
+      
+      this.txt_bonusCerezas = textos([
+        jugador.x, jugador.y,
+        cerezas.getData('puntos').toString(),
+        40, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+        this.sys.game.config.width, Settings.getScreen().escBoundsX
+      ], this);
+      
+      this.txt_bonusCerezas.setDepth(Settings.getDepth().textos).setAlpha(1);
+      this.txt_bonusCerezas.setStroke('#ee9011', 16).setShadow(2, 2, '#111111', 2, false, true);
 
       setTimeout(() => {
         this.cerezas.get().enableBody(

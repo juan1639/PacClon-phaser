@@ -22,14 +22,17 @@ export class Marcador {
             fill: color,
             fontFamily: 'verdana, arial, sans-serif',
             fontStyle: 'bold',
-            shadow: {
+            /* shadow: {
                 offsetX: 1,
                 offsetY: 1,
                 color: '#fff',
                 blur: 7,
                 fill: true
-            }
+            } */
         });
+
+        this.marcador.setStroke('#ee9011', 16).setShadow(2, 2, '#111111', 2, false, true);
+        //#de77ae
 
         console.log(this.marcador);
     }

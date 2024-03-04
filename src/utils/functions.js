@@ -50,6 +50,10 @@ function restar_vida() {
 // =================================================================================
 function textos(args, relatedScene) {
 
+    const excepciones = Settings.getBonusCerezas().concat(Settings.getFantasmasBonusInc().puntos);
+    const excepcionesString = excepciones.map(excepcion => excepcion.toString());
+    console.log(excepcionesString);
+
     const left = Math.floor(args[0]);
     const top = Math.floor(args[1]);
     
@@ -67,8 +71,17 @@ function textos(args, relatedScene) {
         fontFamily: args[11],
     });
 
-    txt.setX(centrar_txt(txt, args[12] * args[13]));
+    if (!excepcionesString.includes(args[2])) txt.setX(centrar_txt(txt, args[12] * args[13]));
     // this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
+
+    if (excepcionesString.includes(args[2])) {
+        relatedScene.tweens.add({
+            targets: txt,
+            alpha: 0,
+            ease: 'Sine.easeInOut',
+            duration: Settings.getFantasmasBonusInc().duracion
+        });
+    }
 
     return txt;
 }

@@ -16,11 +16,11 @@ export class GameOver {
     this.txt1 = textos([
       Math.floor(this.relatedScene.sys.game.config.width / 2),
       Math.floor(this.relatedScene.sys.game.config.height / 3),
-      ' Game Over ', 90, 'bold', 1, 1, '#f41', 15, true, '#ffb', 'verdana, arial, sans-serif',
+      ' Game Over ', 90, 'bold', 1, 1, '#f41', 15, true, '#dd9', 'verdana, arial, sans-serif',
       this.relatedScene.sys.game.config.width, 1
     ], this.relatedScene);
 
-    this.txt1.setAlpha(0);
+    this.txt1.setAlpha(0).setStroke('#f41', 16).setShadow(2, 2, '#111111', 2, false, true);
 
     this.relatedScene.tweens.add({
       targets: this.txt1,
