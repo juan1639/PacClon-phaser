@@ -14,6 +14,7 @@ export function loader(scene) {
     scene.load.spritesheet(`fantanim1${i}`, `./src/img/fantanim1${i}.png`, {frameWidth: 50, frameHeight: 50});
     scene.load.spritesheet(`fantanim2${i}`, `./src/img/fantanim2${i}.png`, {frameWidth: 50, frameHeight: 50});
     scene.load.spritesheet(`fantanim3${i}`, `./src/img/fantanim3${i}.png`, {frameWidth: 50, frameHeight: 50});
+    scene.load.spritesheet(`fantanim5${i}`, `./src/img/fantanim5${i}.png`, {frameWidth: 50, frameHeight: 50});
   }
 
   scene.load.image('boton-continuar', './src/img/boton-continuar.png');

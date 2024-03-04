@@ -5,7 +5,7 @@
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
-import { Fantasma } from '../components/fantasma.js';
+import { Fantasma, OjosFantasma } from '../components/fantasma.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { BotonFullScreen, BotonNuevaPartida } from '../components/boton-nuevapartida.js';
@@ -36,6 +36,7 @@ export class Game extends Phaser.Scene {
     this.jugador = new Jugador(this);
     this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
+    this.ojos = new OjosFantasma(this);
 
     const ancho = this.sys.game.config.width;
     const alto = this.sys.game.config.height;
@@ -124,6 +125,7 @@ export class Game extends Phaser.Scene {
     this.puntitogordo.create();
     this.jugador.create(Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.y);
     this.fantasmas.create();
+    this.ojos.create();
 
     this.jugadorshowvidas.create();
     
@@ -146,10 +148,12 @@ export class Game extends Phaser.Scene {
 
   update() {
 
-    if (this.jugador.controles.shift.isDown) this.scene.start('gameover');
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.jugador.update();
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.fantasmas.update();
-
+    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.ojos.update();
+    
+    if (this.puntito.get().countActive() <= 0) this.scene.start('menuprincipal');
+    
     this.mobile_controls();
   }
 
@@ -206,7 +210,7 @@ export class Game extends Phaser.Scene {
         this.fantasmas.clear_tint();
 
       }, this.fantasmas.duracion_scary());
-      
+
       play_sonidos(this.sonido_eatingGhost, false, 0.9);
 
     }, () => {
@@ -217,50 +221,66 @@ export class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), (jugador, fantasma) => {
 
-      play_sonidos(this.sonido_jugadorDies, false, 0.7);
+      if (!Settings.isFantasmasScary()) {
 
-      jugador.disableBody(true, true);
-      this.jugadordies.create(jugador.x, jugador.y);
+        play_sonidos(this.sonido_jugadorDies, false, 0.7);
 
-      this.timeline = this.add.timeline([
-        {
-          at: Settings.pausa.pacmanDies,
-          run: () => {
-            this.jugadordies.get().disableBody(true, true);
-            this.jugador.get().enableBody(
-              true, Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.x, true, true
-            );
-            this.jugador.intentoGiro = 'right';
-            this.jugador.direccion = 'right';
+        jugador.disableBody(true, true);
+        this.jugadordies.create(jugador.x, jugador.y);
 
-            restar_vida();
+        this.timeline = this.add.timeline([
+          {
+            at: Settings.pausa.pacmanDies,
+            run: () => {
+              this.jugadordies.get().disableBody(true, true);
+              this.jugador.get().enableBody(
+                true, Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.x, true, true
+              );
+              this.jugador.intentoGiro = 'right';
+              this.jugador.direccion = 'right';
 
-            if (Settings.getVidas() < 0) {
+              restar_vida();
 
-              Settings.setGameOver(true);
-              this.jugador.get().destroy();
-              this.gameover.create();
-              this.cameras.main.startFollow(this.gameover.get());
-            }
+              if (Settings.getVidas() < 0) {
 
-            this.jugadorshowvidas.get().children.iterate((vida, index) => {
-              if (index === Settings.getVidas()) vida.setVisible(false);
-            });
-
-            this.fantasmas.get().children.iterate((fant, index) => {
-
-              if (Settings.isGameOver()) {
-                fant.setVisible(false);
-
-              } else {
-                fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * Settings.tileXY.x);
-                fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * Settings.tileXY.y);
+                Settings.setGameOver(true);
+                this.jugador.get().destroy();
+                this.gameover.create();
+                this.cameras.main.startFollow(this.gameover.get());
               }
-            });
+
+              this.jugadorshowvidas.get().children.iterate((vida, index) => {
+                if (index === Settings.getVidas()) vida.setVisible(false);
+              });
+
+              this.fantasmas.get().children.iterate((fant, index) => {
+
+                if (Settings.isGameOver()) {
+                  fant.setVisible(false);
+
+                } else {
+                  fant.setX(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][0] * Settings.tileXY.x);
+                  fant.setY(Settings.fantasmasIniXY[Object.keys(Settings.fantasmasIniXY)[index]][1] * Settings.tileXY.y);
+                }
+              });
+            }
           }
-        }
-      ]);
-      this.timeline.play();
+        ]);
+
+        this.timeline.play();
+
+      } else {
+
+        play_sonidos(this.sonido_eatingGhost, false, 0.9);
+
+        fantasma.setVisible(false);
+        this.ojos.get().getChildren()[fantasma.getData('id')].setVisible(true);
+
+      }
+    }, (jugador, fantasma) => {
+
+      if (!fantasma.visible) return false;
+      return true;
     });
   }
 

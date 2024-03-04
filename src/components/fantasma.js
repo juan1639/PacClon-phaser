@@ -45,13 +45,14 @@ export class Fantasma {
             }
         });
 
-        this.fantasmas.children.iterate((fant => {
+        this.fantasmas.children.iterate((fant, index) => {
 
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
+            fant.setData('id', index);
             fant.setCircle(Math.floor(Settings.tileXY.y / 3));
             fant.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false);
-        }));
+        });
 
         this.fantasmas.children.iterate((fant, index) => {
 
@@ -188,14 +189,23 @@ export class Fantasma {
 
         let duracion = Settings.getFantasmasScaryDuracion() - Settings.getNivel() * 900;
         console.log(duracion);
-        
+
         if (duracion < 1900) return 1900;
         return duracion;
     }
 
     clear_tint() {
 
-        this.fantasmas.children.iterate(fant => fant.clearTint());
+        this.fantasmas.children.iterate(fant => {
+
+            if (!fant.visible) {
+                fant.setVisible(true).clearTint();
+                this.relatedScene.ojos.get().getChildren()[fant.getData('id')].setVisible(false);
+            
+            } else {
+                fant.clearTint();
+            }
+        });
     }
 
     get() {
@@ -213,7 +223,7 @@ export class FantasmaPreGame {
     create() {
 
         this.fantasmaspregame = this.relatedScene.physics.add.group({
-            key: ['fantasma0', 'fantasma1', 'fantasma2', 'fantasma3'],
+            key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
             frameQuantity: 1,
             setXY: {
                 x: (Settings.fantasmasIniXY.azul[0] - 12) * Settings.tileXY.x,
@@ -256,5 +266,82 @@ export class FantasmaPreGame {
         });
 
         console.log(this.fantasmaspregame);
+    }
+}
+
+// ================================================================================
+export class OjosFantasma {
+
+    constructor(scene) {
+        this.relatedScene = scene;
+    }
+
+    create() {
+
+        this.ojosfantasma = this.relatedScene.physics.add.group({
+            key: ['fantanim5', 'fantanim5', 'fantanim5', 'fantanim5'],
+            frameQuantity: 1,
+            setXY: {
+                x: (Settings.fantasmasIniXY.azul[0] - 12) * Settings.tileXY.x,
+                y: (Settings.fantasmasIniXY.azul[1] - 7) * Settings.tileXY.y,
+                stepX: Settings.tileXY.x
+            }
+        });
+
+        this.ojosfantasma.children.iterate((ojos => {
+
+            ojos.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false).setVisible(false);
+        }));
+
+        this.ojosfantasma.children.iterate((ojos, index) => {
+
+            for (let i = 0; i < 4; i ++) {
+
+                this.relatedScene.anims.create({
+                    key: `anim5${i}`, 
+                    frames: this.relatedScene.anims.generateFrameNumbers(`fantanim5${i}`, {start: 0, end: 1}),
+                    frameRate: 8,
+                    yoyo: true,
+                    repeat: -1
+                });
+            }
+
+            ojos.anims.play(`anim50`, true);
+        });
+
+        console.log(this.ojosfantasma);
+    }
+
+    update() {
+
+        this.ojosfantasma.children.iterate((ojos, index) => {
+
+            const fantasma = this.relatedScene.fantasmas.get().getChildren()[index];
+
+            this.set_flips(fantasma, ojos);
+
+            ojos.setX(fantasma.x);
+            ojos.setY(fantasma.y);
+        });
+    }
+
+    set_flips(fantasma, ojos) {
+
+        if (fantasma.getData('direccion') === 'left') {
+            ojos.anims.play(`anim51`, true);
+            
+        } else if (fantasma.getData('direccion') === 'right') {
+            ojos.anims.play(`anim50`, true);
+            
+        } else if (fantasma.getData('direccion') === 'up') {
+            ojos.anims.play(`anim52`, true);
+
+        } else if (fantasma.getData('direccion') === 'down') {
+            ojos.anims.play(`anim53`, true);
+        }
+    }
+
+    get() {
+        return this.ojosfantasma;
     }
 }
