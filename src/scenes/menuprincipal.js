@@ -24,6 +24,7 @@ export class MenuPrincipal extends Phaser.Scene {
         Settings.setGameOver(false);
         Settings.setFantasmasScary(false);
         Settings.setBotonesYcruceta(false);
+        Settings.setFantasmasBonusInc(0);
 
         this.botoninicio = new BotonNuevaPartida(this);
         this.botonsettings = new BotonSettings(this);

@@ -216,6 +216,7 @@ export class Game extends Phaser.Scene {
         Settings.setFantasmasScary(false);
         this.fantasmas.clear_tint();
         this.sonido_fantasmasScary.pause();
+        Settings.setFantasmasBonusInc(0);
 
       }, this.fantasmas.duracion_scary());
 
@@ -286,6 +287,23 @@ export class Game extends Phaser.Scene {
         fantasma.setVisible(false);
         this.ojos.get().getChildren()[fantasma.getData('id')].setVisible(true);
 
+        this.txt_bonusFantasmas = textos([
+          jugador.x, jugador.y,
+          Settings.getFantasmasBonusInc().puntos[Settings.getFantasmasBonusInc().contador].toString(),
+          40, 'bold', 1, 1, '#fa1', 15, true, '#ff7', 'verdana, arial, sans-serif',
+          this.sys.game.config.width, Settings.getScreen().escBoundsX
+        ], this);
+        
+        this.txt_bonusFantasmas.setDepth(Settings.getDepth().textos).setAlpha(1);
+        this.txt_bonusFantasmas.setStroke(Settings.getFantasmasBonusInc().color[Settings.getFantasmasBonusInc().contador], 16);
+        this.txt_bonusFantasmas.setShadow(2, 2, '#111111', 2, false, true);
+
+        const bonus = Settings.getPuntos() + Settings.getFantasmasBonusInc().puntos[Settings.getFantasmasBonusInc().contador];
+        Settings.setPuntos(bonus);
+        this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
+
+        Settings.setFantasmasBonusInc(Settings.getFantasmasBonusInc().contador + 1);
+        if (Settings.getFantasmasBonusInc().contador >= 4) Settings.setFantasmasBonusInc(0);
       }
     }, (jugador, fantasma) => {
 
@@ -293,6 +311,7 @@ export class Game extends Phaser.Scene {
       return true;
     });
 
+    //Overlap Jugador-Cerezas
     this.physics.add.overlap(this.jugador.get(), this.cerezas.get(), (jugador, cerezas) => {
 
       suma_puntos(cerezas);
@@ -308,7 +327,7 @@ export class Game extends Phaser.Scene {
       ], this);
       
       this.txt_bonusCerezas.setDepth(Settings.getDepth().textos).setAlpha(1);
-      this.txt_bonusCerezas.setStroke('#ee9011', 16).setShadow(2, 2, '#111111', 2, false, true);
+      this.txt_bonusCerezas.setStroke('#f51', 16).setShadow(2, 2, '#111111', 2, false, true);
 
       setTimeout(() => {
         this.cerezas.get().enableBody(

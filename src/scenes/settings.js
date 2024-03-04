@@ -50,6 +50,7 @@ export class Settings {
 
     static fantasmasBonusInc = {
         puntos: [200, 400, 800, 1600],
+        color: ['#f91', '#f61', '#f41', '#f21'],
         contador: 0,
         duracion: 3200
     };
