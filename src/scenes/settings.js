@@ -46,7 +46,9 @@ export class Settings {
         rojo: [8, 8],
         verde: [12, 8],
         pink: [16, 8],
-    };
+    }; 
+
+    static cerezasIniXY = [9, 8];
 
     static botonesYcruceta = false;
 

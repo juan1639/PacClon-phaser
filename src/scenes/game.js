@@ -6,6 +6,7 @@ import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
 import { Fantasma, OjosFantasma } from '../components/fantasma.js';
+import { Cerezas } from '../components/cerezas.js';
 import { Marcador } from './../components/marcador.js';
 import { Settings } from './settings.js';
 import { BotonFullScreen, BotonNuevaPartida } from '../components/boton-nuevapartida.js';
@@ -37,6 +38,7 @@ export class Game extends Phaser.Scene {
     this.jugadordies = new JugadorDies(this);
     this.fantasmas = new Fantasma(this);
     this.ojos = new OjosFantasma(this);
+    this.cerezas = new Cerezas(this);
 
     const ancho = this.sys.game.config.width;
     const alto = this.sys.game.config.height;
@@ -126,6 +128,7 @@ export class Game extends Phaser.Scene {
     this.jugador.create(Settings.pacman.iniX * Settings.tileXY.x, Settings.pacman.iniY * Settings.tileXY.y);
     this.fantasmas.create();
     this.ojos.create();
+    this.cerezas.create();
 
     this.jugadorshowvidas.create();
     
@@ -151,6 +154,7 @@ export class Game extends Phaser.Scene {
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.jugador.update();
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.fantasmas.update();
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.ojos.update();
+    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.cerezas.update();
     
     if (this.puntito.get().countActive() <= 0) this.scene.start('menuprincipal');
     
@@ -208,10 +212,12 @@ export class Game extends Phaser.Scene {
       setTimeout(() => {
         Settings.setFantasmasScary(false);
         this.fantasmas.clear_tint();
+        this.sonido_fantasmasScary.pause();
 
       }, this.fantasmas.duracion_scary());
 
       play_sonidos(this.sonido_eatingGhost, false, 0.9);
+      setTimeout(() => play_sonidos(this.sonido_fantasmasScary, true, 0.9), 500);
 
     }, () => {
 
@@ -339,5 +345,6 @@ export class Game extends Phaser.Scene {
     this.sonido_waka = this.sound.add('sonidoWakaWaka');
     this.sonido_jugadorDies = this.sound.add('sonidoPacmanDies');
     this.sonido_eatingGhost = this.sound.add('sonidoPacmanEatingGhost');
+    this.sonido_fantasmasScary = this.sound.add('sonidoPacmanAzules');
   }
 }

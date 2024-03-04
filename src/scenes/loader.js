@@ -17,6 +17,8 @@ export function loader(scene) {
     scene.load.spritesheet(`fantanim5${i}`, `./src/img/fantanim5${i}.png`, {frameWidth: 50, frameHeight: 50});
   }
 
+  scene.load.image('cerezas', './src/img/cerezas.png');
+
   scene.load.image('boton-continuar', './src/img/boton-continuar.png');
   scene.load.image('boton-nueva-partida', './src/img/boton-start.png');
   scene.load.image('boton-settings', './src/img/boton-config.png');
