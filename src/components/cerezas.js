@@ -27,13 +27,14 @@ export class Cerezas {
     create() {
 
         this.cerezas = this.relatedScene.physics.add.sprite(
-            Settings.cerezasIniXY[0] * Settings.tileXY.x,
-            Settings.cerezasIniXY[1] * Settings.tileXY.y,
+            Settings.getCerezasIniXY()[0] * Settings.tileXY.x,
+            Settings.getCerezasIniXY()[1] * Settings.tileXY.y,
             'cerezas'
         );
 
         this.cerezas.setData('intentoGiro', 'right');
         this.cerezas.setData('direccion', 'right');
+        this.cerezas.setData('puntos', Settings.getBonusCerezas()[Settings.getNivel()]);
         this.cerezas.setCircle(Math.floor(Settings.tileXY.y / 3));
         this.cerezas.setAngle(-20).setScale(0.8).setFrame(0).setFlipX(false);
 
@@ -55,22 +56,20 @@ export class Cerezas {
 
         const direcc = Cerezas.INFO_DIRECCION;
 
-        let x = 0;
-        let y = 0;
-
-        x = Math.floor(
+        const x = Math.floor(
             (this.cerezas.x + direcc[this.cerezas.getData('direccion')][0] +
                 Settings.tileXY.x * direcc[this.cerezas.getData('direccion')][2]) / Settings.tileXY.x);
         
-        y = Math.floor(
+        const y = Math.floor(
             (this.cerezas.y + direcc[this.cerezas.getData('direccion')][1] +
                 Settings.tileXY.y * direcc[this.cerezas.getData('direccion')][3]) / Settings.tileXY.y);
         
-        if (!(Laberinto.check_colision(x, y))) {
+        if (!Laberinto.check_colision(x, y)) {
 
             this.cerezas.x += direcc[this.cerezas.getData('direccion')][0] * Cerezas.VEL;
             this.cerezas.y += direcc[this.cerezas.getData('direccion')][1] * Cerezas.VEL;
 
+            // Escapatorias
             if (this.cerezas.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && this.cerezas.getData('direccion') === 'right') this.cerezas.x = -Settings.tileXY.x;
             if (this.cerezas.x < -Settings.tileXY.x && this.cerezas.getData('direccion') === 'left') this.cerezas.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
 

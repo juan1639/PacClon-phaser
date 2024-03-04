@@ -95,6 +95,7 @@ export class Jugador {
         const y = Math.floor((this.jugador.y + offsetY + alto) / Settings.tileXY.y);
 
         if (Laberinto.array_laberinto[y][x] !== 9) {
+            
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
 

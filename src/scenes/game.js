@@ -193,6 +193,7 @@ export class Game extends Phaser.Scene {
 
   crear_colliders() {
 
+    //Overlap Jugador-Puntitos
     this.physics.add.overlap(this.jugador.get(), this.puntito.get(), (jugador, puntito) => {
 
       suma_puntos(puntito);
@@ -201,6 +202,7 @@ export class Game extends Phaser.Scene {
       play_sonidos(this.sonido_waka, false, 0.9);
     });
 
+    //Overlap Jugador-PuntitosGordos
     this.physics.add.overlap(this.jugador.get(), this.puntitogordo.get(), (jugador, puntitogordo) => {
 
       suma_puntos(puntitogordo);
@@ -225,6 +227,7 @@ export class Game extends Phaser.Scene {
       return true;
     });
 
+    //Overlap Jugador-Fantasmas
     this.physics.add.overlap(this.jugador.get(), this.fantasmas.get(), (jugador, fantasma) => {
 
       if (!Settings.isFantasmasScary()) {
@@ -288,6 +291,23 @@ export class Game extends Phaser.Scene {
       if (!fantasma.visible) return false;
       return true;
     });
+
+    this.physics.add.overlap(this.jugador.get(), this.cerezas.get(), (jugador, cerezas) => {
+
+      suma_puntos(cerezas);
+      this.marcadorPtos.update(' Puntos: ', Settings.getPuntos());
+      cerezas.disableBody(true, true);
+      play_sonidos(this.sonido_eatingCherry, false, 0.9);
+
+      setTimeout(() => {
+        this.cerezas.get().enableBody(
+          true,
+          Settings.getCerezasIniXY()[0] * Settings.tileXY.x,
+          Settings.getCerezasIniXY()[1] * Settings.tileXY.y,
+          true, true
+        );
+      }, 15000); // Frecuencia volver a salir Cerezas
+    });
   }
 
   mobile_controls() {
@@ -345,6 +365,7 @@ export class Game extends Phaser.Scene {
     this.sonido_waka = this.sound.add('sonidoWakaWaka');
     this.sonido_jugadorDies = this.sound.add('sonidoPacmanDies');
     this.sonido_eatingGhost = this.sound.add('sonidoPacmanEatingGhost');
+    this.sonido_eatingCherry = this.sound.add('sonidoPacmanEatingCherry');
     this.sonido_fantasmasScary = this.sound.add('sonidoPacmanAzules');
   }
 }

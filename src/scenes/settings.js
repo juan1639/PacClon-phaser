@@ -50,6 +50,10 @@ export class Settings {
 
     static cerezasIniXY = [9, 8];
 
+    static bonusCerezas = [
+        300, 500, 800, 1000, 2000, 3000, 5000, 5000, 5000, 5000, 5000, 5000
+    ];
+
     static botonesYcruceta = false;
 
     static coorCruceta = {
@@ -140,6 +144,14 @@ export class Settings {
 
     static isBotonesYcruceta() {
         return Settings.botonesYcruceta;
+    }
+
+    static getCerezasIniXY() {
+        return Settings.cerezasIniXY;
+    }
+
+    static getBonusCerezas() {
+        return Settings.bonusCerezas;
     }
 
     static getCoorCruceta() {

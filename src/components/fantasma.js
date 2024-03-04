@@ -120,6 +120,7 @@ export class Fantasma {
                 fant.x += direcc[fant.getData('direccion')][0] * Fantasma.VEL;
                 fant.y += direcc[fant.getData('direccion')][1] * Fantasma.VEL;
 
+                // Escapatorias
                 if (fant.x > Laberinto.array_laberinto[0].length * Settings.tileXY.x && fant.getData('direccion') === 'right') fant.x = -Settings.tileXY.x;
                 if (fant.x < -Settings.tileXY.x && fant.getData('direccion') === 'left') fant.x = (Laberinto.array_laberinto[0].length - 1) * Settings.tileXY.x;
 
