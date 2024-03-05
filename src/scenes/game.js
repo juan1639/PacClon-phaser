@@ -29,6 +29,10 @@ export class Game extends Phaser.Scene {
 
   init() {
 
+    Settings.setGameOver(false);
+    Settings.setFantasmasScary(false);
+    Settings.setFantasmasBonusInc(0);
+
     this.set_pausaInicial(4300);
 
     this.laberinto = new Laberinto(this);
@@ -143,6 +147,8 @@ export class Game extends Phaser.Scene {
     this.crucetadown.create();
     this.iconogamepad.create();
 
+    // play_sonidos(this.sonido_sirena, true, 0.07);
+
     this.cameras.main.startFollow(this.jugador.get());
     // this.cameras.main.followOffset.set(0, 0);
 
@@ -156,7 +162,17 @@ export class Game extends Phaser.Scene {
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.ojos.update();
     if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.cerezas.update();
     
-    if (this.puntito.get().countActive() <= 0) this.scene.start('menuprincipal');
+    if (this.puntito.get().countActive() <= 0 && !Settings.pausa.nivelSuperado) {
+
+      Settings.pausa.nivelSuperado = true;
+      Settings.setFantasmasScary(false);
+      this.texto_enhorabuena();
+
+      setTimeout(() => {
+        Settings.pausa.nivelSuperado = false;
+        this.scene.start('congratulations');
+      }, Settings.pausa.nivelSuperadoDuracion);
+    };
     
     this.mobile_controls();
   }
@@ -190,6 +206,20 @@ export class Game extends Phaser.Scene {
     ]);
 
     this.timeline.play();
+  }
+
+  texto_enhorabuena() {
+
+    this.txt_enhorabuena = textos([
+      this.jugador.get().x - Settings.tileXY.x * 3, 0,
+      ' Enhorabuena! ', 70, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+      this.sys.game.config.width, Settings.getScreen().escBoundsX
+    ], this);
+
+    this.txt_enhorabuena.setDepth(Settings.getDepth().textos);
+    this.txt_enhorabuena.setStroke('#5f1', 16).setShadow(2, 2, '#111111', 2, false, true);
+
+    elastic(this.txt_enhorabuena, this.jugador.get().y - Settings.tileXY.y, 3000, this);
   }
 
   crear_colliders() {
@@ -286,6 +316,9 @@ export class Game extends Phaser.Scene {
 
         fantasma.setVisible(false);
         this.ojos.get().getChildren()[fantasma.getData('id')].setVisible(true);
+        Settings.pausa.comeFantasma = true;
+
+        setTimeout(() => Settings.pausa.comeFantasma = false, Settings.pausa.comeFantasmaDuracion);
 
         this.txt_bonusFantasmas = textos([
           jugador.x, jugador.y,
@@ -397,5 +430,6 @@ export class Game extends Phaser.Scene {
     this.sonido_eatingGhost = this.sound.add('sonidoPacmanEatingGhost');
     this.sonido_eatingCherry = this.sound.add('sonidoPacmanEatingCherry');
     this.sonido_fantasmasScary = this.sound.add('sonidoPacmanAzules');
+    this.sonido_sirena = this.sound.add('sonidoPacmanSirena');
   }
 }

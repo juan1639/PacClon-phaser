@@ -21,12 +21,11 @@ export class Settings {
 
     static pausa = {
         inicial: 4300,
-        pacmanDies: 3100
-    };
-
-    static fantasmasScary = {
-        activo: false,
-        duracion: 8000
+        pacmanDies: 3100,
+        comeFantasma: false,
+        comeFantasmaDuracion: 500,
+        nivelSuperado: false,
+        nivelSuperadoDuracion: 3000
     };
 
     static pacman = {
@@ -46,6 +45,11 @@ export class Settings {
         rojo: [8, 8],
         verde: [12, 8],
         pink: [16, 8],
+    };
+
+    static fantasmasScary = {
+        activo: false,
+        duracion: 8000
     };
 
     static fantasmasBonusInc = {

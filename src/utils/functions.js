@@ -52,6 +52,7 @@ function textos(args, relatedScene) {
 
     const excepciones = Settings.getBonusCerezas().concat(Settings.getFantasmasBonusInc().puntos);
     const excepcionesString = excepciones.map(excepcion => excepcion.toString());
+    excepcionesString.push(' Enhorabuena! ');
     console.log(excepcionesString);
 
     const left = Math.floor(args[0]);
@@ -74,7 +75,7 @@ function textos(args, relatedScene) {
     if (!excepcionesString.includes(args[2])) txt.setX(centrar_txt(txt, args[12] * args[13]));
     // this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
 
-    if (excepcionesString.includes(args[2])) {
+    if (excepcionesString.includes(args[2]) && args[2] !== ' Enhorabuena! ') {
         relatedScene.tweens.add({
             targets: txt,
             alpha: 0,

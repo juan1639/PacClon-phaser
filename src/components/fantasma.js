@@ -77,7 +77,7 @@ export class Fantasma {
 
     update() {
 
-        if (!this.relatedScene.jugador.get().body.enable) return;
+        if (!this.relatedScene.jugador.get().body.enable || Settings.pausa.comeFantasma || Settings.pausa.nivelSuperado) return;
 
         const direcc = Fantasma.INFO_DIRECCION;
 

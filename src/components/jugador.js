@@ -50,7 +50,7 @@ export class Jugador {
 
     update() {
 
-        if (!this.jugador.body.enable) return;
+        if (!this.jugador.body.enable || Settings.pausa.comeFantasma || Settings.pausa.nivelSuperado) return;
 
         const direcc = Jugador.INFO_DIRECCION;
 
@@ -95,7 +95,7 @@ export class Jugador {
         const y = Math.floor((this.jugador.y + offsetY + alto) / Settings.tileXY.y);
 
         if (Laberinto.array_laberinto[y][x] !== 9) {
-            
+
             this.jugador.x += direcc[this.direccion][0] * Jugador.VEL;
             this.jugador.y += direcc[this.direccion][1] * Jugador.VEL;
 
@@ -154,7 +154,7 @@ export class JugadorShowVidas {
 
         this.jugadorshowvidas = this.relatedScene.physics.add.group({
             key: ['pacman'],
-            frameQuantity: 3,
+            frameQuantity: Settings.getVidas(),
             setXY: {
                 x: left,
                 y: top,

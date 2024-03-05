@@ -1,8 +1,13 @@
-import { centrar_txt } from '../utils/functions.js';
+import {
+  centrar_txt,
+  textos,
+  particulas,
+  play_sonidos
+} from '../utils/functions.js';
+
 import { Settings } from './settings.js';
 import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
 
-// =================================================================================================
 export class Congratulations extends Phaser.Scene {
 
   constructor() {
@@ -15,47 +20,51 @@ export class Congratulations extends Phaser.Scene {
 
   create() {
 
+    this.add.image(0, 0, 'fondo').setOrigin(0, 0);
+
     const aparecerBoton = 3200;
     this.incremento_nivel = Settings.getNivel() + 1;
-    this.sonidoLevelUp = this.sound.add('sonidoLevelUp');
-    this.sonidoMusicaFondo = this.sound.add('sonidoMusicaFondo');
     
-    this.size = 80;
+    this.sonido_intermision = this.sound.add('sonidoPacmanIntermision');
+
     this.left = Math.floor(this.sys.game.config.width / 5.2);
     this.top = Math.floor(this.sys.game.config.height / 3);
-    
-    this.txt_titulo = this.add.text(this.left, this.top, ' Nivel Superado! ', {
-        fontSize: this.size + 'px',
-        fontStyle: 'bold',
-        shadow: {
-            offsetX: 1,
-            offsetY: 1,
-            color: '#fa1',
-            blur: 15,
-            fill: true
-        },
-        fill: '#fd2',
-        fontFamily: 'verdana, arial, sans-serif'
-    });
 
+    this.txt_titulo = textos([
+      this.left, this.top,
+      ' Nivel Superado! ', 80, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
+      this.sys.game.config.width, Settings.getScreen().escBoundsX
+    ], this);
+
+    this.txt_titulo.setDepth(Settings.getDepth().textos).setAlpha(1);
+    this.txt_titulo.setStroke('#f91', 16);
+    this.txt_titulo.setShadow(2, 2, '#111111', 2, false, true);
     this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
+
+    particulas(
+      this.sys.game.config.width / 2, this.sys.game.config.height / 2,
+      'sparkle',
+      {min: 90, max: 320},
+      {min: 5500, max: 6000},
+      {start: 0, end: 0.4},
+      0xffcc11,
+      null, false, this
+    );
 
     this.timeline = this.add.timeline([
         {
           at: aparecerBoton,
           run: () => {
             Settings.setNivel(this.incremento_nivel);
-            this.botoninicio.create('prenivel');
+            this.botoninicio.create('game');
           }
         }
     ]);
     
     this.timeline.play();
 
+    play_sonidos(this.sonido_intermision, false, 0.8);
+
     console.log(this.txt_titulo);
-  }
-
-  update() {
-
   }
 }
