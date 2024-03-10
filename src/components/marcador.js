@@ -1,14 +1,15 @@
 import { Settings } from '../scenes/settings.js';
 
-export class Marcador {
-
-    constructor(scene, datos) {
+export class Marcador
+{
+    constructor(scene, datos)
+    {
         this.relatedScene = scene;
         this.datos = datos;
     }
 
-    create() {
-
+    create()
+    {
         const { x, y, size, txt, color, id } = this.datos;
 
         let texto = '';
@@ -21,14 +22,7 @@ export class Marcador {
             fontSize: size + 'px',
             fill: color,
             fontFamily: 'verdana, arial, sans-serif',
-            fontStyle: 'bold',
-            /* shadow: {
-                offsetX: 1,
-                offsetY: 1,
-                color: '#fff',
-                blur: 7,
-                fill: true
-            } */
+            fontStyle: 'bold'
         });
 
         this.marcador.setStroke('#ee9011', 16).setShadow(2, 2, '#111111', 2, false, true);
@@ -37,13 +31,13 @@ export class Marcador {
         console.log(this.marcador);
     }
 
-    update(txt, valor) {
-
+    update(txt, valor)
+    {
         this.marcador.setText(`${txt}${valor}`);
     }
 
-    get() {
+    get()
+    {
         return this.marcador;
     }
 }
-

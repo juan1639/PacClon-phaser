@@ -1,8 +1,8 @@
 import { Settings } from '../scenes/settings.js';
 import { Laberinto } from "./laberinto.js";
 
-export class Cerezas {
-
+export class Cerezas
+{
     static VEL = 2;
 
     // [velX, velY, addWidth, addHeight, angle]
@@ -20,12 +20,13 @@ export class Cerezas {
         down: ['right', 'left', 'up']
     };
 
-    constructor(scene) {
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.cerezas = this.relatedScene.physics.add.sprite(
             Settings.getCerezasIniXY()[0] * Settings.tileXY.x,
             Settings.getCerezasIniXY()[1] * Settings.tileXY.y,
@@ -50,8 +51,8 @@ export class Cerezas {
         console.log(this.cerezas);
     }
 
-    update() {
-
+    update()
+    {
         if (!this.relatedScene.jugador.get().body.enable) return;
 
         const direcc = Cerezas.INFO_DIRECCION;
@@ -79,13 +80,14 @@ export class Cerezas {
         }
     }
 
-    elegir_otra_direccion(direcc, cerezas) {
-
+    elegir_otra_direccion(direcc, cerezas)
+    {
         let actualDirecc = direcc[cerezas.getData('direccion')][5];
         return Cerezas.OTRA_DIRECCION_RND[actualDirecc][Math.floor(Math.random()* 3)];
     }
 
-    get() {
+    get()
+    {
         return this.cerezas;
     }
 }

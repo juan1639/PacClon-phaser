@@ -1,14 +1,15 @@
 import { textos } from "../utils/functions.js";
 import { Settings } from '../scenes/settings.js';
 
-export class GameOver {
-
-  constructor(scene) {
+export class GameOver
+{
+  constructor(scene)
+  {
     this.relatedScene = scene;
   }
   
-  create() {
-
+  create()
+  {
     this.sonidoGameOver = this.relatedScene.sound.add('sonidoGameOverRetro');
 
     const duracionThisScene = 7000;
@@ -47,8 +48,8 @@ export class GameOver {
 
   update() {}
 
-  check_newRecord() {
-
+  check_newRecord()
+  {
     if (Settings.getPuntos() >= Settings.getRecord()) {
 
       Settings.setRecord(Settings.getPuntos());
@@ -72,7 +73,8 @@ export class GameOver {
     } 
   }
 
-  get() {
+  get()
+  {
     return this.txt1;
   }
 }

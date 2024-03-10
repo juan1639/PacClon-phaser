@@ -1,3 +1,5 @@
+import { Settings } from './settings.js';
+import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
 import {
   centrar_txt,
   textos,
@@ -5,21 +7,20 @@ import {
   play_sonidos
 } from '../utils/functions.js';
 
-import { Settings } from './settings.js';
-import { BotonNuevaPartida } from "../components/boton-nuevapartida.js";
-
-export class Congratulations extends Phaser.Scene {
-
-  constructor() {
+export class Congratulations extends Phaser.Scene
+{
+  constructor()
+  {
     super({ key: 'congratulations' });
   }
 
-  init() {
+  init()
+  {
     this.botoninicio = new BotonNuevaPartida(this);
   }
 
-  create() {
-
+  create()
+  {
     this.add.image(0, 0, 'fondo').setOrigin(0, 0);
 
     const aparecerBoton = 3200;
@@ -27,19 +28,17 @@ export class Congratulations extends Phaser.Scene {
     
     this.sonido_intermision = this.sound.add('sonidoPacmanIntermision');
 
-    this.left = Math.floor(this.sys.game.config.width / 5.2);
-    this.top = Math.floor(this.sys.game.config.height / 3);
-
     this.txt_titulo = textos([
-      this.left, this.top,
+      Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 3.5),
       ' Nivel Superado! ', 80, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
       this.sys.game.config.width, Settings.getScreen().escBoundsX
     ], this);
 
+    this.txt_titulo.setOrigin(0.5, 0.5);
     this.txt_titulo.setDepth(Settings.getDepth().textos).setAlpha(1);
     this.txt_titulo.setStroke('#f91', 16);
     this.txt_titulo.setShadow(2, 2, '#111111', 2, false, true);
-    this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
+    // this.txt_titulo.setX(centrar_txt(this.txt_titulo, this.sys.game.config.width));
 
     particulas(
       this.sys.game.config.width / 2, this.sys.game.config.height / 2,

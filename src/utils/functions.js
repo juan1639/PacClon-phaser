@@ -1,14 +1,13 @@
 import { Settings } from "../scenes/settings.js";
 
-function centrar_txt(texto, anchoScreen) {
-  
+function centrar_txt(texto, anchoScreen)
+{
     console.log(texto.width);
     return Math.floor(anchoScreen / 2 - texto.width / 2);
 }
 
-// =================================================================================
-function elastic(texto, down, dura, scene) {
-
+function elastic(texto, down, dura, scene)
+{
     scene.tweens.add({
         targets: texto,
         y: down,
@@ -17,9 +16,8 @@ function elastic(texto, down, dura, scene) {
     });
 }
 
-// =================================================================================
-function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene) {
-
+function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene)
+{
     const partis = scene.add.particles(x, y, particula, {
         speed: vel,
         lifespan: span,
@@ -32,27 +30,25 @@ function particulas(x, y, particula, vel, span, size, color, sprite, bool, scene
     if (bool) partis.startFollow(sprite);
 }
 
-// =================================================================================
-function suma_puntos(puntos) {
-
+function suma_puntos(puntos)
+{
     const bonus = Settings.getPuntos() + puntos.getData('puntos');
     Settings.setPuntos(bonus);
     // console.log(bonus, Settings.getPuntos());
 }
 
-// =================================================================================
-function restar_vida() {
-    
+function restar_vida()
+{
     const actualizar = Settings.getVidas() - 1;
     Settings.setVidas(actualizar);
 }
 
-// =================================================================================
-function textos(args, relatedScene) {
-
+function textos(args, relatedScene)
+{
     const excepciones = Settings.getBonusCerezas().concat(Settings.getFantasmasBonusInc().puntos);
     const excepcionesString = excepciones.map(excepcion => excepcion.toString());
     excepcionesString.push(' Enhorabuena! ');
+    excepcionesString.push(' Nivel Superado! ');
     console.log(excepcionesString);
 
     const left = Math.floor(args[0]);
@@ -87,9 +83,8 @@ function textos(args, relatedScene) {
     return txt;
 }
 
-// =================================================================================
-function play_sonidos(id, boolLoop, volumen) {
-    
+function play_sonidos(id, boolLoop, volumen)
+{
     id.play();
     id.loop = boolLoop;
     id.volume = volumen;

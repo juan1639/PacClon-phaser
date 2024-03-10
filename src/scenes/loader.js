@@ -1,15 +1,19 @@
 
-export function loader(scene) {
-
+export function loader(scene)
+{
   scene.load.image('fondo', './src/img/fondo_pacmanPh.png');
-  scene.load.image('tile', './src/img/tile_pacmanMarron.png');
+  scene.load.image('tile2', './src/img/tile_pacmanMarron.png');
+  scene.load.image('tile1', './src/img/tile_pacmanMarron-2.png');
+  scene.load.image('tile3', './src/img/tile_pacmanBlue.png');
+  scene.load.image('tile-suelo1', './src/img/sueloTile-pacmanMarron-2.png');
   // scene.load.image('puntito', './src/img/puntito.png');
   scene.load.image('puntito', './src/img/silverbubble.png');
   scene.load.image('sparkle', './src/img/sparkle1.png');
 
   scene.load.spritesheet('pacman', './src/img/pac-animasPh.png', {frameWidth: 64, frameHeight: 64});
 
-  for (let i = 0; i < 4; i ++) {
+  for (let i = 0; i < 4; i ++)
+  {
     scene.load.spritesheet(`fantanim0${i}`, `./src/img/fantanim0${i}.png`, {frameWidth: 50, frameHeight: 50});
     scene.load.spritesheet(`fantanim1${i}`, `./src/img/fantanim1${i}.png`, {frameWidth: 50, frameHeight: 50});
     scene.load.spritesheet(`fantanim2${i}`, `./src/img/fantanim2${i}.png`, {frameWidth: 50, frameHeight: 50});

@@ -11,13 +11,15 @@ import {
     particulas
 } from '../utils/functions.js';
 
-export class MenuPrincipal extends Phaser.Scene {
-
-    constructor() {
+export class MenuPrincipal extends Phaser.Scene
+{
+    constructor()
+    {
         super({ key: 'menuprincipal' });
     }
 
-    init() {
+    init()
+    {
         Settings.setPuntos(0);
         Settings.setNivel(1);
         Settings.setVidas(3);
@@ -33,30 +35,41 @@ export class MenuPrincipal extends Phaser.Scene {
         this.fantasmaspregame = new FantasmaPreGame(this);
     } 
 
-    preload() {
+    preload()
+    {
+        const widthScreen = this.sys.game.config.width;
+        const heightScreen = this.sys.game.config.height;
 
-        const txt = this.add.text(Math.floor(this.sys.game.config.width / 2), Math.floor(this.sys.game.config.height / 2), ' Cargando...', {
+        const txt = this.add.text(Math.floor(widthScreen / 2), Math.floor(heightScreen / 4), ' Cargando...', {
             fontSize: '50px',
             fill: '#ffa',
             fontFamily: 'verdana, arial, sans-serif'
         });
 
-        txt.setX(centrar_txt(txt, this.sys.game.config.width));
+        txt.setOrigin(0.5, 0);
 
-        this.add.rectangle(512, 384, 468, 32).setStrokeStyle(1, 0xffffff);
-        const bar = this.add.rectangle(512-230, 384, 4, 28, 0xffff00);
+        this.add.rectangle(
+            Math.floor(widthScreen / 2), Math.floor(heightScreen / 2),
+            Math.floor(widthScreen / 1.5), Math.floor(heightScreen / 12)
+        ).setStrokeStyle(1, 0xffee88);
+
+        const bar = this.add.rectangle(
+            Math.floor(widthScreen / 2) - Math.floor(widthScreen / 3) + 4,
+            Math.floor(heightScreen / 2),
+            4,
+            Math.floor(heightScreen / 14),
+            0xff9911
+        );
 
         this.load.on('progress', (progress) => {
-
-            //  Update the progress bar (our bar is 464px wide, so 100% = 464px)
-            bar.width = 4 + (460 * progress);
+            bar.width = (Math.floor(widthScreen / 1.55) * progress);
         });
 
         loader(this);
     }
     
-    create() {
-
+    create()
+    {
         const aparecerBoton = 4000;
         this.sonido_intermision = this.sound.add('sonidoPacmanIntermision');
 

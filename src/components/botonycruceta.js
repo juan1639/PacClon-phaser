@@ -1,14 +1,15 @@
 import { Settings } from "../scenes/settings.js";
 
-export class CrucetaDireccion {
-
-    constructor(scene, direccion) {
+export class CrucetaDireccion
+{
+    constructor(scene, direccion)
+    {
         this.relatedScene = scene;
         this.direccion = direccion;
     }
 
-    create() {
-
+    create()
+    {
         const { id, press, x, y, ang, scX, scY } = this.direccion;
 
         this.boton = this.relatedScene.add.image(x, y, id).setInteractive();
@@ -40,25 +41,29 @@ export class CrucetaDireccion {
         console.log(this.boton);
     }
     
-    get() {
+    get()
+    {
         return this.boton;
     }
 }
 
 // ======================================================================================
-export class IconoGamePad {
-
-    constructor(scene, direccion) {
+export class IconoGamePad
+{
+    constructor(scene, direccion)
+    {
         this.relatedScene = scene;
         this.direccion = direccion;
     }
 
-    create() {
-
-        this.iconogamepad = this.relatedScene.add.image(this.direccion.x, this.direccion.y, this.direccion.id).setInteractive();
-        this.iconogamepad.setScale(this.direccion.scX, this.direccion.scY).setAngle(this.direccion.ang);
+    create()
+    {
+        const {x, y, id, ang, scX, scY} = this.direccion;
+        
+        this.iconogamepad = this.relatedScene.add.image(x, y, id).setInteractive();
+        this.iconogamepad.setScale(scX, scY).setAngle(ang);
         this.iconogamepad.setDepth(4).setBlendMode(Phaser.BlendModes.ADD);
-        this.iconogamepad.setX(this.direccion.x).setY(this.direccion.y);
+        this.iconogamepad.setX(x).setY(y);
         this.iconogamepad.setData('on', true);
 
         if (Settings.isBotonesYcruceta()) this.iconogamepad.setVisible(false);
@@ -66,11 +71,11 @@ export class IconoGamePad {
         this.isDown = false;
     
         this.iconogamepad.on('pointerover', () => {
-          this.iconogamepad.setScale(this.direccion.scX + 0.4, this.direccion.scY + 0.4);
+          this.iconogamepad.setScale(scX + 0.4, scY + 0.4);
         });
 
         this.iconogamepad.on('pointerout', () => {
-          this.iconogamepad.setScale(this.direccion.scX, this.direccion.scY);
+          this.iconogamepad.setScale(scX, scY);
         });
 
         this.iconogamepad.on('pointerdown', () => {
@@ -84,8 +89,8 @@ export class IconoGamePad {
         console.log(this.iconogamepad);
     }
     
-    get() {
+    get()
+    {
         return this.iconogamepad;
     }
 }
-

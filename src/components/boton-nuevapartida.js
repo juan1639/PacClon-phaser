@@ -1,13 +1,14 @@
 import { Settings } from "../scenes/settings.js";
 
-export class BotonNuevaPartida {
-
-  constructor(scene) {
+export class BotonNuevaPartida
+{
+  constructor(scene)
+  {
     this.relatedScene = scene;
   }
 
-  create(siguienteScene) {
-
+  create(siguienteScene)
+  {
     const ancho = this.relatedScene.sys.game.config.width;
     const alto = this.relatedScene.sys.game.config.height;
     const botonCondicional = Settings.getNivel() > 1 ? 'boton-continuar' : 'boton-nueva-partida';
@@ -21,10 +22,12 @@ export class BotonNuevaPartida {
       // this.boton.setFrame(1);
       this.boton.setScale(0.8);
     });
+
     this.boton.on('pointerout', () => {
       // this.boton.setFrame(0);
       this.boton.setScale(0.6);
     });
+
     this.boton.on('pointerdown', () => {
       this.relatedScene.scene.start(siguienteScene);
     });
@@ -42,16 +45,18 @@ export class BotonNuevaPartida {
 }
 
 // ==================================================================================
-export class BotonSettings {
-
-  constructor(scene) {
+export class BotonSettings
+{
+  constructor(scene)
+  {
     this.relatedScene = scene;
   }
 
-  create(siguienteScene) {
-
+  create(siguienteScene)
+  {
     const ancho = this.relatedScene.sys.game.config.width;
     const alto = this.relatedScene.sys.game.config.height;
+    
     this.boton = this.relatedScene.add.sprite(Math.floor(ancho / 2), Math.floor(alto / 1.1), 'boton-settings').setInteractive();
     this.boton.setScale(0.5);
     this.boton.setAngle(0);
@@ -61,10 +66,12 @@ export class BotonSettings {
       // this.boton.setFrame(1);
       this.boton.setScale(0.8);
     });
+
     this.boton.on('pointerout', () => {
       // this.boton.setFrame(0);
       this.boton.setScale(0.5);
     });
+
     this.boton.on('pointerdown', () => {
       this.relatedScene.scene.start(siguienteScene);
     });
@@ -81,16 +88,17 @@ export class BotonSettings {
 }
 
 // ==================================================================================
-export class BotonFullScreen {
-  
-  constructor(scene, args) {
+export class BotonFullScreen
+{
+  constructor(scene, args)
+  {
     this.relatedScene = scene;
     this.args = args;
   }
 
-  create() {
-
-    const { x, y } = this.args;
+  create()
+  {
+    const {x, y} = this.args;
 
     const escala = 0.9;
     const sizeXY = Math.floor((64 * escala) / 2);
@@ -102,6 +110,7 @@ export class BotonFullScreen {
       // this.boton.setFrame(1);
       this.boton.setScale(escala + 0.1);
     });
+
     this.boton.on('pointerout', () => {
       // this.boton.setFrame(0);
       this.boton.setScale(escala);

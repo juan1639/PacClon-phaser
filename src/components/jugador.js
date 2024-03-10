@@ -1,8 +1,8 @@
 import { Settings } from '../scenes/settings.js';
 import { Laberinto } from "./laberinto.js";
 
-export class Jugador {
-
+export class Jugador
+{
     static VEL = 4;
 
     // [velX, velY, addWidth, addHeight, angle]
@@ -13,15 +13,21 @@ export class Jugador {
         down: [0, 1, 0, 1, 90]
     };
 
-    constructor(scene) {
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create(x, y) {
-
+    create(x, y)
+    {
         this.jugador = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
-        this.jugador.setAngle(0).setCircle(Math.floor(Settings.tileXY.y / 3));
+        this.jugador.setAngle(0).setCircle(
+            Math.floor(Settings.tileXY.y / 3),
+            Math.floor(Settings.tileXY.x / 6),
+            Math.floor(Settings.tileXY.y / 6)
+        );
+
         this.intentoGiro = 'right';
         this.direccion = this.intentoGiro;
 
@@ -48,8 +54,8 @@ export class Jugador {
         console.log(this.jugador);
     }
 
-    update() {
-
+    update()
+    {
         if (!this.jugador.body.enable || Settings.pausa.comeFantasma || Settings.pausa.nivelSuperado) return;
 
         const direcc = Jugador.INFO_DIRECCION;
@@ -107,20 +113,22 @@ export class Jugador {
         // console.log(this.jugador.x, this.jugador.y);
     }
 
-    get() {
+    get()
+    {
         return this.jugador;
     }
 }
 
 // ================================================================================
-export class JugadorDies {
-
-    constructor(scene) {
+export class JugadorDies
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create(x, y) {
-
+    create(x, y)
+    {
         this.jugadordies = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
         this.jugadordies.setFrame(4);
@@ -135,21 +143,23 @@ export class JugadorDies {
         console.log(this.jugadordies);
     }
 
-    get() {
+    get()
+    {
         return this.jugadordies;
     }
 }
 
 // ================================================================================
-export class JugadorShowVidas {
-
-    constructor(scene, args) {
+export class JugadorShowVidas
+{
+    constructor(scene, args)
+    {
         this.relatedScene = scene;
         this.args = args;
     }
 
-    create() {
-
+    create()
+    {
         const { left, top } = this.args;
 
         this.jugadorshowvidas = this.relatedScene.physics.add.group({
@@ -170,20 +180,22 @@ export class JugadorShowVidas {
         console.log(this.jugadorshowvidas);
     }
 
-    get() {
+    get()
+    {
         return this.jugadorshowvidas;
     }
 }
 
 // ================================================================================
-export class JugadorPreGame {
-
-    constructor(scene) {
+export class JugadorPreGame
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create(x, y) {
-
+    create(x, y)
+    {
         this.jugadorpregame = this.relatedScene.physics.add.sprite(x, y, 'pacman');
 
         this.jugadorpregame.setAngle(0);

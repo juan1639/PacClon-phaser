@@ -1,6 +1,6 @@
 
-export class Settings {
-
+export class Settings
+{
     static screen = {
         width: 800,
         height: 550,
@@ -124,7 +124,7 @@ export class Settings {
         [9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
     ];
 
-    // ------------------------------------------------------
+    // ------- Getters ---------
     static getPuntos() {
         return Settings.puntos;
     }
@@ -189,7 +189,7 @@ export class Settings {
         return Settings.cameraScores;
     }
 
-    // ------------------------------------------------------
+    // ------- Setters ---------
     static setPuntos(ptos) {
         Settings.puntos = ptos;
     }

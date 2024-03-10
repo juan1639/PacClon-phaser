@@ -1,7 +1,9 @@
-// =========================================================================================
-//  P a c  C l o n  -  Phaser
+// ===============================================
+//  P a c  C l o n  -  Phaser  | By Juan Eguia
+//   
+//  https://juan1639.github.io/PacClon-phaser
 // 
-// -----------------------------------------------------------------------------------------
+// -----------------------------------------------
 import { Laberinto } from '../components/laberinto.js';
 import { Puntitos, PuntitosGordos } from '../components/puntitos.js';
 import { Jugador, JugadorDies, JugadorShowVidas } from '../components/jugador.js';
@@ -21,14 +23,15 @@ import {
   textos
 } from '../utils/functions.js';
 
-export class Game extends Phaser.Scene {
-
-  constructor() {
+export class Game extends Phaser.Scene
+{
+  constructor()
+  {
     super({ key: 'game' });
   }
 
-  init() {
-
+  init()
+  {
     Settings.setGameOver(false);
     Settings.setFantasmasScary(false);
     Settings.setFantasmasBonusInc(0);
@@ -44,81 +47,17 @@ export class Game extends Phaser.Scene {
     this.ojos = new OjosFantasma(this);
     this.cerezas = new Cerezas(this);
 
-    const ancho = this.sys.game.config.width;
-    const alto = this.sys.game.config.height;
-
-    const marcadoresPosY = -99;
-
-    this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
-
-    this.marcadorPtos = new Marcador(this, {
-      x: 10, y: marcadoresPosY, size: 40, txt: ' Puntos: ', color: '#fff', id: 0
-    });
-
-    this.marcadorNivel = new Marcador(this, {
-      x: Math.floor(ancho / 2), y: marcadoresPosY, size: 40, txt: ' Nivel: ', color: '#ff5', id: 1
-    });
-
-    this.marcadorHi = new Marcador(this, {
-      x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 40, txt: ' Record: ', color: '#fff', id: 2
-    });
-
-    this.botonfullscreen = new BotonFullScreen(this, {x: Math.floor(ancho * 1.33), y: marcadoresPosY + 9});
-
-    var { xx, yy, sizeX, sizeY } = Settings.getCoorCruceta();
-    
-    this.crucetaleft = new CrucetaDireccion(this, {
-      id: 'cruceta-left',
-      press: 'left',
-      x: xx, y: yy,
-      ang: 0,
-      scX: sizeX, scY: sizeY
-    });
-    
-    this.crucetaright = new CrucetaDireccion(this, {
-      id: 'cruceta-right',
-      press: 'right',
-      x: xx + 350, y: yy,
-      ang: 0,
-      scX: sizeX, scY: sizeY
-    });
-    
-    this.crucetaup = new CrucetaDireccion(this, {
-      id: 'cruceta-left',
-      press: 'up',
-      x: xx + 175, y: yy - 80,
-      ang: 90,
-      scX: sizeX - 0.7, scY: sizeY + 0.1
-    });
-    
-    this.crucetadown = new CrucetaDireccion(this, {
-      id: 'cruceta-left',
-      press: 'down',
-      x: xx + 175, y: yy + 122,
-      ang: 270,
-      scX: sizeX + 1, scY: sizeY + 0.1
-    });
-
-    this.iconogamepad = new IconoGamePad(this, {
-      id: 'icono-gamepad',
-      x: xx + 90, y: yy,
-      ang: 0,
-      scX: 2, scY: 2
-    });
+    this.instanciar_marcadores();
+    this.instanciar_mobileControls();
 
     this.gameover = new GameOver(this);
     this.botonrejugar = new BotonNuevaPartida(this);
-
-    /* this.crucetaleft = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.4, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1 });
-    this.crucetaright = new CrucetaDireccion(this, { id: 'cruceta-right', x: 0, y: alto * 0.44, ang: 0, scX: 2.5, scY: 2.1});
-    this.crucetaup = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.28, ang: 90, scX: 1.6, scY: 2.2 });
-    this.crucetadown = new CrucetaDireccion(this, { id: 'cruceta-left', x: ancho * 0.2, y: alto * 0.56, ang: 270, scX: 2.5, scY: 2.1 }); */
   }
 
   preload() {}
 
-  create() {
-
+  create()
+  {
     this.add.image(0, 0, 'fondo').setOrigin(0, 0);
     
     this.set_sonidos();
@@ -147,8 +86,6 @@ export class Game extends Phaser.Scene {
     this.crucetadown.create();
     this.iconogamepad.create();
 
-    // play_sonidos(this.sonido_sirena, true, 0.07);
-
     this.cameras.main.startFollow(this.jugador.get());
     // this.cameras.main.followOffset.set(0, 0);
 
@@ -157,13 +94,16 @@ export class Game extends Phaser.Scene {
 
   update() {
 
-    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.jugador.update();
-    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.fantasmas.update();
-    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.ojos.update();
-    if (!this.pausa_inicial.activa && !Settings.isGameOver()) this.cerezas.update();
-    
-    if (this.puntito.get().countActive() <= 0 && !Settings.pausa.nivelSuperado) {
+    if (!this.pausa_inicial.activa && !Settings.isGameOver())
+    {
+      this.jugador.update();
+      this.fantasmas.update();
+      this.ojos.update();
+      this.cerezas.update();
+    }
 
+    if (this.puntito.get().countActive() <= 0 && !Settings.pausa.nivelSuperado)
+    {
       Settings.pausa.nivelSuperado = true;
       Settings.setFantasmasScary(false);
       this.texto_enhorabuena();
@@ -172,13 +112,13 @@ export class Game extends Phaser.Scene {
         Settings.pausa.nivelSuperado = false;
         this.scene.start('congratulations');
       }, Settings.pausa.nivelSuperadoDuracion);
-    };
+    }
     
     this.mobile_controls();
   }
 
-  set_pausaInicial(tiempo) {
-
+  set_pausaInicial(tiempo)
+  {
     this.pausa_inicial = {
       duracion: tiempo,
       activa: true
@@ -208,8 +148,8 @@ export class Game extends Phaser.Scene {
     this.timeline.play();
   }
 
-  texto_enhorabuena() {
-
+  texto_enhorabuena()
+  {
     this.txt_enhorabuena = textos([
       this.jugador.get().x - Settings.tileXY.x * 3, 0,
       ' Enhorabuena! ', 70, 'bold', 1, 1, '#fa1', 15, true, '#ffa', 'verdana, arial, sans-serif',
@@ -222,8 +162,8 @@ export class Game extends Phaser.Scene {
     elastic(this.txt_enhorabuena, this.jugador.get().y - Settings.tileXY.y, 3000, this);
   }
 
-  crear_colliders() {
-
+  crear_colliders()
+  {
     //Overlap Jugador-Puntitos
     this.physics.add.overlap(this.jugador.get(), this.puntito.get(), (jugador, puntito) => {
 
@@ -373,10 +313,10 @@ export class Game extends Phaser.Scene {
     });
   }
 
-  mobile_controls() {
-
-    if (!Settings.isBotonesYcruceta() && this.iconogamepad.isDown) {
-
+  mobile_controls()
+  {
+    if (!Settings.isBotonesYcruceta() && this.iconogamepad.isDown)
+    {
       Settings.setBotonesYcruceta(true);
       this.iconogamepad.get().setVisible(false);
 
@@ -387,8 +327,8 @@ export class Game extends Phaser.Scene {
     }
   }
 
-  set_cameras() {
-
+  set_cameras()
+  {
     this.cameras.main.setBounds(
       0, 0, Math.floor(this.sys.game.config.width * Settings.getScreen().escBoundsX),
       Math.floor(this.sys.game.config.height * Settings.getScreen().escBoundsY)
@@ -400,8 +340,8 @@ export class Game extends Phaser.Scene {
     );
   }
 
-  set_cameras_controles() {
-    
+  set_cameras_controles()
+  {
     var { x, y, ancho, alto, scrollX, scrollY } = Settings.getCameraControles();
     
     this.mapa_controles = this.cameras.add(x, y, ancho, alto).setZoom(0.9).setName('view-controls').setAlpha(0.7).setOrigin(0, 0);
@@ -410,8 +350,8 @@ export class Game extends Phaser.Scene {
     // console.log(this.mapa_controles);
   }
   
-  set_cameras_marcadores() {
-
+  set_cameras_marcadores()
+  {
     var { x, y, ancho, alto, scrollX, scrollY } = Settings.getCameraScores();
     
     this.mapa_scores = this.cameras.add(x, y, ancho, alto).setZoom(0.6).setName('view-scores').setAlpha(1).setOrigin(0, 0);
@@ -420,8 +360,76 @@ export class Game extends Phaser.Scene {
     // console.log(this.mapa_scores);
   }
 
-  set_sonidos() {
+  instanciar_marcadores()
+  {
+    const ancho = this.sys.game.config.width;
+    const alto = this.sys.game.config.height;
 
+    const marcadoresPosY = -99;
+
+    this.jugadorshowvidas = new JugadorShowVidas(this, {left: Math.floor(ancho * 1.4), top: marcadoresPosY + 9});
+
+    this.marcadorPtos = new Marcador(this, {
+      x: 10, y: marcadoresPosY, size: 40, txt: ' Puntos: ', color: '#fff', id: 0
+    });
+
+    this.marcadorNivel = new Marcador(this, {
+      x: Math.floor(ancho / 2), y: marcadoresPosY, size: 40, txt: ' Nivel: ', color: '#ff5', id: 1
+    });
+
+    this.marcadorHi = new Marcador(this, {
+      x: Math.floor(ancho / 1.2), y: marcadoresPosY, size: 40, txt: ' Record: ', color: '#fff', id: 2
+    });
+
+    this.botonfullscreen = new BotonFullScreen(this, {x: Math.floor(ancho * 1.33), y: marcadoresPosY + 9});
+  }
+
+  instanciar_mobileControls()
+  {
+    var { xx, yy, sizeX, sizeY } = Settings.getCoorCruceta();
+    
+    this.crucetaleft = new CrucetaDireccion(this, {
+      id: 'cruceta-left',
+      press: 'left',
+      x: xx, y: yy,
+      ang: 0,
+      scX: sizeX, scY: sizeY
+    });
+    
+    this.crucetaright = new CrucetaDireccion(this, {
+      id: 'cruceta-right',
+      press: 'right',
+      x: xx + 350, y: yy,
+      ang: 0,
+      scX: sizeX, scY: sizeY
+    });
+    
+    this.crucetaup = new CrucetaDireccion(this, {
+      id: 'cruceta-left',
+      press: 'up',
+      x: xx + 175, y: yy - 80,
+      ang: 90,
+      scX: sizeX - 0.7, scY: sizeY + 0.1
+    });
+    
+    this.crucetadown = new CrucetaDireccion(this, {
+      id: 'cruceta-left',
+      press: 'down',
+      x: xx + 175, y: yy + 122,
+      ang: 270,
+      scX: sizeX + 1, scY: sizeY + 0.1
+    });
+
+    this.iconogamepad = new IconoGamePad(this, {
+      id: 'icono-gamepad',
+      x: xx + 90, y: yy,
+      ang: 0,
+      scX: 2, scY: 2
+    });
+  }
+
+  set_sonidos()
+  {
     this.sonido_preparado = this.sound.add('sonidoPacmanInicioNivel');
     play_sonidos(this.sonido_preparado, false, 0.8);
 

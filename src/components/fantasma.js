@@ -1,8 +1,8 @@
 import { Settings } from '../scenes/settings.js';
 import { Laberinto } from "./laberinto.js";
 
-export class Fantasma {
-
+export class Fantasma
+{
     static VEL = 4;
 
     // [velX, velY, addWidth, addHeight, angle]
@@ -29,12 +29,13 @@ export class Fantasma {
         [4, 13], [6, 13], [12, 13], [14, 13]
     ];
 
-    constructor(scene) {
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.fantasmas = this.relatedScene.physics.add.group({
             key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
             frameQuantity: 1,
@@ -50,7 +51,12 @@ export class Fantasma {
             fant.setData('intentoGiro', 'right');
             fant.setData('direccion', 'right');
             fant.setData('id', index);
-            fant.setCircle(Math.floor(Settings.tileXY.y / 3));
+            fant.setCircle(
+                Math.floor(Settings.tileXY.y / 3),
+                Math.floor(Settings.tileXY.x / 12),
+                Math.floor(Settings.tileXY.y / 12)
+            );
+
             fant.setAngle(0).setScale(1.15, 1.15).setFrame(0).setFlipX(false);
         });
 
@@ -75,8 +81,8 @@ export class Fantasma {
         console.log(this.fantasmas);
     }
 
-    update() {
-
+    update()
+    {
         if (!this.relatedScene.jugador.get().body.enable || Settings.pausa.comeFantasma || Settings.pausa.nivelSuperado) return;
 
         const direcc = Fantasma.INFO_DIRECCION;
@@ -140,14 +146,14 @@ export class Fantasma {
         });
     }
 
-    elegir_otra_direccion(direcc, fant) {
-
+    elegir_otra_direccion(direcc, fant)
+    {
         let actualDirecc = direcc[fant.getData('direccion')][5];
         return Fantasma.OTRA_DIRECCION_RND[actualDirecc][Math.floor(Math.random()* 3)];
     }
 
-    fantasma_persigue(fant) {
-
+    fantasma_persigue(fant)
+    {
         const hor_ver = Phaser.Math.Between(0, 10);
 
         if (hor_ver < 5) {
@@ -170,8 +176,8 @@ export class Fantasma {
         }
     }
 
-    set_flips(fant, index) {
-
+    set_flips(fant, index)
+    {
         if (fant.getData('direccion') === 'left') {
             fant.anims.play(`anim${index}1`, true);
             
@@ -186,8 +192,8 @@ export class Fantasma {
         }
     }
 
-    duracion_scary() {
-
+    duracion_scary()
+    {
         let duracion = Settings.getFantasmasScaryDuracion() - Settings.getNivel() * 900;
         console.log(duracion);
 
@@ -195,8 +201,8 @@ export class Fantasma {
         return duracion;
     }
 
-    clear_tint() {
-
+    clear_tint()
+    {
         this.fantasmas.children.iterate(fant => {
 
             if (!fant.visible) {
@@ -209,20 +215,22 @@ export class Fantasma {
         });
     }
 
-    get() {
+    get()
+    {
         return this.fantasmas;
     }
 }
 
 // ===========================================================================
-export class FantasmaPreGame {
-
-    constructor(scene) {
+export class FantasmaPreGame
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.fantasmaspregame = this.relatedScene.physics.add.group({
             key: ['fantanim0', 'fantanim1', 'fantanim2', 'fantanim3'],
             frameQuantity: 1,
@@ -271,14 +279,15 @@ export class FantasmaPreGame {
 }
 
 // ================================================================================
-export class OjosFantasma {
-
-    constructor(scene) {
+export class OjosFantasma
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.ojosfantasma = this.relatedScene.physics.add.group({
             key: ['fantanim5', 'fantanim5', 'fantanim5', 'fantanim5'],
             frameQuantity: 1,
@@ -313,8 +322,8 @@ export class OjosFantasma {
         console.log(this.ojosfantasma);
     }
 
-    update() {
-
+    update()
+    {
         this.ojosfantasma.children.iterate((ojos, index) => {
 
             const fantasma = this.relatedScene.fantasmas.get().getChildren()[index];
@@ -326,8 +335,8 @@ export class OjosFantasma {
         });
     }
 
-    set_flips(fantasma, ojos) {
-
+    set_flips(fantasma, ojos)
+    {
         if (fantasma.getData('direccion') === 'left') {
             ojos.anims.play(`anim51`, true);
             
@@ -342,7 +351,8 @@ export class OjosFantasma {
         }
     }
 
-    get() {
+    get()
+    {
         return this.ojosfantasma;
     }
 }

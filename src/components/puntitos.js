@@ -2,19 +2,21 @@ import { Settings } from "../scenes/settings.js";
 import { Laberinto } from "./laberinto.js";
 import { particulas } from "../utils/functions.js";
 
-export class Puntitos {
-
-    constructor(scene) {
+export class Puntitos
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.puntito = this.relatedScene.physics.add.staticGroup();
 
-        for (let i = 0; i < Laberinto.array_laberinto.length; i ++) {
-            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++) {
-
+        for (let i = 0; i < Laberinto.array_laberinto.length; i ++)
+        {
+            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++)
+            {
                 const valor = Laberinto.array_laberinto[i][ii];
 
                 if (valor === 1) {
@@ -29,25 +31,28 @@ export class Puntitos {
         console.log(this.puntito);
     }
 
-    get() {
+    get()
+    {
         return this.puntito;
     }
 }
 
 // ===========================================================================
-export class PuntitosGordos {
-
-    constructor(scene) {
+export class PuntitosGordos
+{
+    constructor(scene)
+    {
         this.relatedScene = scene;
     }
 
-    create() {
-
+    create()
+    {
         this.puntitosgordos = this.relatedScene.physics.add.staticGroup();
 
-        for (let i = 0; i < Laberinto.array_laberinto.length; i ++) {
-            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++) {
-
+        for (let i = 0; i < Laberinto.array_laberinto.length; i ++)
+        {
+            for (let ii = 0; ii < Laberinto.array_laberinto[i].length; ii ++)
+            {
                 const valor = Laberinto.array_laberinto[i][ii];
 
                 if (valor === 5) {
@@ -82,7 +87,8 @@ export class PuntitosGordos {
         console.log(this.puntitosgordos);
     }
 
-    get() {
+    get()
+    {
         return this.puntitosgordos;
     }
 }
